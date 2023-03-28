@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple ChatBot</title>
+    <title>medAlpaca</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
@@ -224,6 +224,21 @@
                 }
             }
 
+            function showTypingIndicator() {
+                const typingIndicator = $('<div class="bot-typing-indicator">...</div>');
+                const emptyBubble = $('<div class="bot-response"><strong>Awaiting response:</strong><br><p></p></div>');
+
+                $("#chatbox").append(typingIndicator);
+                $("#chatbox").append(emptyBubble);
+
+                scrollToLatestMessage();
+            }
+
+            function removeTypingIndicator() {
+                $(".bot-typing-indicator").remove();
+                $(".bot-response").last().remove();
+            }
+
             function scrollToLatestMessage() {
                 const chatbox = $("#chatbox");
                 chatbox.scrollTop(chatbox[0].scrollHeight);
@@ -255,12 +270,20 @@
 
                     scrollToLatestMessage();
 
+                    // Show typing indicator and empty speech bubble.
+                    showTypingIndicator();
+
                     $.post("/get_response", { message: message, chatbot: $("#chatbot-selector").val() }, function (data) {
+                        // Remove typing indicator and empty speech bubble.
+                        removeTypingIndicator();
+
                         const responseHtml = converter.makeHtml(data.response);
                         addMessageToChatbox(`<p>${responseHtml}</p>`, true);
 
                         scrollToLatestMessage();
                     }).fail(function () {
+                        // Remove typing indicator and empty speech bubble in case of error.
+                        removeTypingIndicator();
                         alert("An error occurred. Please try again.");
                     });
                 }
