@@ -1,0 +1,10 @@
+numpy==1.23.5
+rouge_score
+fire
+openai
+git+https://github.com/huggingface/transformers.git@b29fd6971d9cd6ba2a824628effe243f543b8f61
+torch
+sentencepiece
+tokenizers==0.12.1
+wandb
+accelerate==0.18.0
