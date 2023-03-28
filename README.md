@@ -2,13 +2,10 @@
 
 # medAlpaca: a set of large language models, finetuned for medical question answering
 
-
 ## Project Overview
-medAlpaca builds upon [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) and [ChatDoctor](https://github.com/Kent0n-Li/ChatDoctor) to provide a set of large language models that have been fine-tuned for medical question answering and dialogue. 
-The goal of this project is to provide a set of open tools for the creation of medical chatbot applications. 
+MedAlpaca expands upon both [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) and [ChatDoctor](https://github.com/Kent0n-Li/ChatDoctor) to offer an advanced suite of large language models specifically fine-tuned for medical question-answering and dialogue applications. Our primary objective is to deliver an array of open-source language models, paving the way for seamless development of medical chatbot solutions.
 
-The models have been trained on a diverse range of medical texts, including medical flash cards, medical wikis and medical dialogue datasets. 
-Refer to the data section for more information. 
+These models have been trained using a variety of medical texts, encompassing resources such as medical flashcards, wikis, and dialogue datasets. For more details on the data utilized, please consult the data section. 
 
 | Model Name                | Description              | 
 |---------------------------|--------------------------|
@@ -30,6 +27,9 @@ Install the required packages:
 ```bash
 pip install -r requirements.txt
 ```
+
+Give the recency of LLaMA, HugginFace does not fully support it yet and you may run into [errors](https://github.com/tatsu-lab/stanford_alpaca#warning).
+To mitigate these issues, we have specified the dependency versions that have proven effective for our purposes. Please refer to the pinned requirements for a smoother experience.
 
 ## Finetune The Models
 All models have been trained on 8A100 GPUs with 80GB VRAM
@@ -108,9 +108,21 @@ The training data for this project was sourced from various resources. Firstly, 
 
 We provide two datasets: `medalpaca_small` and `medalpaca_large`. 
 
-`medalpaca_small` consists of 6000 Q/A pairs, mainly consisting out of questions from the Wikidoc patient information. 
-`medalpaca_large` consists of the whole dataset. 
+`medalpaca_small` consists of 6000 Q/A pairs, consisting out of questions from the Wikidoc patient information and can be found in this repositories root directory
+`medalpaca_large` consists of the whole dataset. You can apply here for access. Please note, that we are still in the process of cleaning and optimizing this dataset. 
 
-## Inference
+## Benchmarks
+We benchmarked all models on the USMLE self assessment. 
+
+| Model Name                | USMLE Step1              | USMLE Step1              | USMLE Step1              | 
+|---------------------------|--------------------------|--------------------------|--------------------------|
+| medOPT-6.7B               |                          |                          |                          |
+| medOPT-13B                |                          |                          |                          |
+| medOPT-30B                |                          |                          |                          |
+| medAlpaca-6B              |                          |                          |                          |
+| medAlpaca-13B             |                          |                          |                          |
+| medAlpaca-30B             |                          |                          |                          |
+
+## Chat with medAlpaca
 
 TODO: Add Docker + WebApp
