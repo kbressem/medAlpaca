@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple ChatBot</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/autosize.js/4.0.2/autosize.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222831;
+            color: #f2f2f2;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        #chatbox {
+            width: 80%;
+            min-width: 600px;
+            max-width: 1200px;
+            margin: 20px auto;
+            border: 0px solid #393e46;
+            border-radius: 10px;
+            padding: 20px;
+            padding-left: 100px;
+            overflow: auto;
+            max-height: 600px;
+        }
+
+        .user-response,
+        .bot-response {
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .user-response {
+            position: relative;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #393e46;
+            border-radius: 10px;
+            max-width: 95%;
+            word-wrap: break-word;
+            margin-left: 30px;
+        }
+
+        .bot-response {
+            position: relative;
+            padding: 10px;
+            margin-bottom: 10px;
+            background-color: #30475e;
+            border-radius: 10px;
+            max-width: 95%;
+            word-wrap: break-word;
+            margin-right: 30px;
+        }
+
+        .edit-button {
+            position: absolute;
+            top: -10px;
+            right: -10px;
+            /* ... other styles ... */
+        }
+
+        #messageForm {
+            width: 80%;
+            min-width: 600px;
+            max-width: 1200px;
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        #message {
+            flex-grow: 1;
+            border: 1px solid #393e46;
+            border-radius: 10px;
+            padding: 5px 10px;
+            background-color: #393e46;
+            color: #f2f2f2;
+            resize: none;
+            outline: none;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        button {
+            border: 1px solid #393e46;
+            background-color: #393e46;
+            color: #f2f2f2;
+            border-radius: 10px;
+            padding: 5px 15px;
+            margin-left: 10px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        button:hover {
+            background-color: #30475e;
+        }
+
+        select {
+            border: 1px solid #393e46;
+            background-color: #393e46;
+            color: #f2f2f2;
+            border-radius: 10px;
+            padding: 5px 10px;
+            margin: 10px;
+            outline: none;
+        }
+
+        select:focus {
+            background-color: #30475e;
+        }
+
+        label {
+            margin: 10px;
+        }
+
+        .floating-selector {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(104, 104, 104, 0.3);
+            padding: 10px;
+            border-radius: 5px;
+            z-index: 10;
+            font-size: 14px;
+            color: #cdcdcd;
+            display: inline-flex;
+            flex-direction: column;
+            align-items: flex-end;
+        }
+
+
+        .floating-selector label {
+            margin-left: 5px;
+        }
+
+        .floating-selector select {
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 3px;
+            padding: 5px;
+            font-size: 14px;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/showdown/1.9.1/showdown.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/default.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+</head>
+
+<body>
+
+    <div class="floating-selector">
+        <label for="chatbot-selector">Select a Model:</label>
+        <select id="chatbot-selector">
+            <option value="opt-6.7">opt-6.7</option>
+            <option value="alpaca-7">alpaca-7</option>
+        </select>
+    </div>
+
+
+    <div id="chatbox">
+    </div>
+    <form id="messageForm">
+        <textarea name="message" id="message" rows="2" autocomplete="off"
+            placeholder="Type your message here..."></textarea>
+        <button type="submit">Send</button>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            const converter = new showdown.Converter();
+            hljs.configure({ useBR: true });
+
+            let latestBotResponse = null;
+
+            function addMessageToChatbox(html, isBotResponse = false) {
+                const newMessage = $(`<div>${html}</div>`);
+
+                if (isBotResponse) {
+                    const chatbotName = $("#chatbot-selector option:selected").text();
+                    newMessage.prepend(`<strong>${chatbotName}:</strong><br>`);
+                    newMessage.addClass('bot-response');
+                    latestBotResponse = newMessage;
+                } else {
+                    const messageContent = $('<div class="message-content"></div>').html(html);
+                    newMessage.prepend('<strong>User:</strong><br>');
+                    newMessage.addClass('user-response');
+                }
+                newMessage.find('pre code').each(function (i, block) {
+                    hljs.highlightBlock(block);
+                    const copyButton = $('<button class="copy-button">Copy</button>');
+                    copyButton.on("click", function () {
+                        const temp = $("<textarea>");
+                        $("body").append(temp);
+                        temp.val($(block).text()).select();
+                        document.execCommand("copy");
+                        temp.remove();
+                        alert("Code copied to clipboard.");
+                    });
+                    $(block).before(copyButton);
+                });
+                $("#chatbox").append(newMessage);
+
+                // Scroll to the bottom of the chatbox.
+                $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
+
+                // Set the latest bot response.
+                if (isBotResponse) {
+                    latestBotResponse = newMessage;
+                }
+            }
+
+            function scrollToLatestMessage() {
+                const chatbox = $("#chatbox");
+                chatbox.scrollTop(chatbox[0].scrollHeight);
+            }
+
+            $("#message").on("keydown", function (event) {
+                if (event.keyCode === 13) {
+                    event.preventDefault();
+                    if (event.shiftKey) {
+                        const cursorPos = this.selectionStart;
+                        const currentValue = $(this).val();
+                        $(this).val(currentValue.slice(0, cursorPos) + "\n" + currentValue.slice(cursorPos));
+                        this.selectionStart = this.selectionEnd = cursorPos + 1;
+                    } else {
+                        $("#messageForm").submit();
+                    }
+                }
+            });
+
+            $("#messageForm").submit(function (event) {
+                event.preventDefault();
+
+                const message = $("#message").val().trim();
+                if (message) {
+                    $("#message").val("");
+
+                    const messageHtml = converter.makeHtml(message);
+                    addMessageToChatbox(`<p>${messageHtml}</p>`);
+
+                    scrollToLatestMessage();
+
+                    $.post("/get_response", { message: message, chatbot: $("#chatbot-selector").val() }, function (data) {
+                        const responseHtml = converter.makeHtml(data.response);
+                        addMessageToChatbox(`<p>${responseHtml}</p>`, true);
+
+                        scrollToLatestMessage();
+                    }).fail(function () {
+                        alert("An error occurred. Please try again.");
+                    });
+                }
+            });
+        });
+    </script>
+
+
+
+</body>
+
+</html>
