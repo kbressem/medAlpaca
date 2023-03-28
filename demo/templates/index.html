@@ -234,6 +234,7 @@
                 scrollToLatestMessage();
             }
 
+
             function removeTypingIndicator() {
                 $(".bot-typing-indicator").remove();
                 $(".bot-response").last().remove();
@@ -273,19 +274,28 @@
                     // Show typing indicator and empty speech bubble.
                     showTypingIndicator();
 
-                    $.post("/get_response", { message: message, chatbot: $("#chatbot-selector").val() }, function (data) {
-                        // Remove typing indicator and empty speech bubble.
-                        removeTypingIndicator();
+                    // Replace the AJAX request with an EventSource for streaming responses
+                    const eventSource = new EventSource(`/get_response?message=${encodeURIComponent(message)}&chatbot=${encodeURIComponent($("#chatbot-selector").val())}`);
 
-                        const responseHtml = converter.makeHtml(data.response);
-                        addMessageToChatbox(`<p>${responseHtml}</p>`, true);
+                    eventSource.onmessage = function (event) {
+                        if (event.data === "END") {
+                            eventSource.close();
+                        } else {
+                            // Remove typing indicator and empty speech bubble.
+                            removeTypingIndicator();
 
-                        scrollToLatestMessage();
-                    }).fail(function () {
+                            const responseHtml = converter.makeHtml(event.data);
+                            addMessageToChatbox(`<p>${responseHtml}</p>`, true);
+
+                            scrollToLatestMessage();
+                        }
+                    };
+
+                    eventSource.onerror = function () {
                         // Remove typing indicator and empty speech bubble in case of error.
                         removeTypingIndicator();
                         alert("An error occurred. Please try again.");
-                    });
+                    };
                 }
             });
         });
