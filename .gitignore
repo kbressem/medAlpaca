@@ -1,6 +1,7 @@
 # large files
 data/
 models/
+scheduler/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
