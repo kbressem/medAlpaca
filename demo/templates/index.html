@@ -236,9 +236,24 @@
                 $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
             }
 
-            function scrollToLatestMessage() {
-                const chatbox = $("#chatbox");
-                chatbox.scrollTop(chatbox[0].scrollHeight);
+            function disableInput() {
+                $("#message").prop("disabled", true);
+                $("#messageForm button[type='submit']").prop("disabled", true);
+            }
+
+            function enableInput() {
+                $("#message").prop("disabled", false);
+                $("#messageForm button[type='submit']").prop("disabled", false);
+            }
+
+            function showTypingIndicator() {
+                const typingIndicator = $('<div class="bot-typing-indicator">...</div>');
+                const emptyBubble = $('<div class="bot-response"><strong>Awaiting response:</strong><br><p></p></div>');
+
+                $("#chatbox").append(typingIndicator);
+                $("#chatbox").append(emptyBubble);
+
+                scrollToLatestMessage();
             }
 
             function disableInput() {
@@ -270,7 +285,7 @@
 
                 const message = $("#message").val().trim();
                 if (message) {
-                    disableInput();
+                    disableInput(); // Disable input after submitting
                     $("#message").val("");
 
                     const messageHtml = converter.makeHtml(message);
@@ -281,14 +296,11 @@
                     // Replace the AJAX request with an EventSource for streaming responses
                     const eventSource = new EventSource(`/get_response?message=${encodeURIComponent(message)}&chatbot=${encodeURIComponent($("#chatbot-selector").val())}`);
 
-                    eventSource.onmessage = function (event) {
-                        if (event.data === "END") {
-                            eventSource.close();
-                            responseStarted = false;
-                            enableInput();
-                        } else {
-                            const responseHtml = converter.makeHtml(event.data);
-                            addMessageToChatbox(`<p>${responseHtml}</p>`, true);
+                    $.post("/get_response", { message: message, chatbot: $("#chatbot-selector").val() }, function (data) {
+                        // Remove typing indicator and empty speech bubble.
+                        removeTypingIndicator();
+                        enableInput(); // Enable input after receiving the bot's response
+
 
                             scrollToLatestMessage();
                         }
@@ -296,8 +308,9 @@
 
                     eventSource.onerror = function () {
                         alert("An error occurred. Please try again.");
-                        enableInput();
-                    };
+                        enableInput(); // Enable input after receiving the bot's response
+                    });
+
                 }
             });
         });

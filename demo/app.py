@@ -49,7 +49,8 @@ def chat():
 
     if model_name and input_text:
         model = model_pipelines[model_name]
-        return Response(generate_response(model, input_text), content_type="text/event-stream")
+        response = model(input_text)[0]["generated_text"]
+        response = response.replace(input_text, "")
     else:
         response = "Something went wrong"
         return jsonify({"response": response})
