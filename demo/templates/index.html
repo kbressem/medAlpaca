@@ -224,6 +224,16 @@
                 }
             }
 
+            function disableInput() {
+                $("#message").prop("disabled", true);
+                $("#messageForm button[type='submit']").prop("disabled", true);
+            }
+
+            function enableInput() {
+                $("#message").prop("disabled", false);
+                $("#messageForm button[type='submit']").prop("disabled", false);
+            }
+
             function showTypingIndicator() {
                 const typingIndicator = $('<div class="bot-typing-indicator">...</div>');
                 const emptyBubble = $('<div class="bot-response"><strong>Awaiting response:</strong><br><p></p></div>');
@@ -263,6 +273,7 @@
 
                 const message = $("#message").val().trim();
                 if (message) {
+                    disableInput(); // Disable input after submitting
                     $("#message").val("");
 
                     const messageHtml = converter.makeHtml(message);
@@ -276,6 +287,7 @@
                     $.post("/get_response", { message: message, chatbot: $("#chatbot-selector").val() }, function (data) {
                         // Remove typing indicator and empty speech bubble.
                         removeTypingIndicator();
+                        enableInput(); // Enable input after receiving the bot's response
 
                         const responseHtml = converter.makeHtml(data.response);
                         addMessageToChatbox(`<p>${responseHtml}</p>`, true);
@@ -285,6 +297,7 @@
                         // Remove typing indicator and empty speech bubble in case of error.
                         removeTypingIndicator();
                         alert("An error occurred. Please try again.");
+                        enableInput(); // Enable input after receiving the bot's response
                     });
                 }
             });

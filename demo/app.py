@@ -22,7 +22,7 @@ def chat():
     if model_name and input_text:
         model = model_pipelines[model_name]
         response = model(input_text)[0]["generated_text"]
-        print(response)
+        response = response.replace(input_text, "")
     else:
         response = "Something went wrong"
 
