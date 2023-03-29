@@ -241,6 +241,15 @@
                 chatbox.scrollTop(chatbox[0].scrollHeight);
             }
 
+            function disableInput() {
+                $("#message").prop("disabled", true);
+                $("#messageForm button[type='submit']").prop("disabled", true);
+            }
+
+            function enableInput() {
+                $("#message").prop("disabled", false);
+                $("#messageForm button[type='submit']").prop("disabled", false);
+            }
 
             $("#message").on("keydown", function (event) {
                 if (event.keyCode === 13) {
@@ -261,6 +270,7 @@
 
                 const message = $("#message").val().trim();
                 if (message) {
+                    disableInput();
                     $("#message").val("");
 
                     const messageHtml = converter.makeHtml(message);
@@ -275,6 +285,7 @@
                         if (event.data === "END") {
                             eventSource.close();
                             responseStarted = false;
+                            enableInput();
                         } else {
                             const responseHtml = converter.makeHtml(event.data);
                             addMessageToChatbox(`<p>${responseHtml}</p>`, true);
@@ -285,6 +296,7 @@
 
                     eventSource.onerror = function () {
                         alert("An error occurred. Please try again.");
+                        enableInput();
                     };
                 }
             });

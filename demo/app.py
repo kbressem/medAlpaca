@@ -2,7 +2,17 @@ from flask import Flask, jsonify, render_template, request, Response
 from transformers import pipeline
 import time
 
+# as alternative https://github.com/hyperonym/basaran
+
 app = Flask(__name__)
+
+
+# using pipelines does not work for streaming. 
+# I probably need to implement the streaming directly with the model. 
+# Given LLaMA is not fully supported by HF, this might even be the better solution
+# TODO: use AutoTokenizer and AutoModel
+# Encode the input, generate output. Length is n input tokes + output tokens. 
+# Maybe look into this: https://huggingface.co/blog/how-to-generate
 
 model_pipelines = {
     "opt-6.7": pipeline("text-generation", model="distilgpt2"),
@@ -15,12 +25,19 @@ def index():
 
 def generate_response(model, input_text):
     response_parts = []
+    generated_text = input_text
+    timeout = 0
 
-    for i in range(1, 4):  # Arbitrary number of response parts
-        response_part = model(input_text, max_length=i * 10)[0]["generated_text"]
+    while True:
+        response_part = model(generated_text, max_length=10)[0]["generated_text"]
         response_parts.append(response_part)
-        yield f"data: {response_part}\n\n"
-        time.sleep(1)  # Simulate processing time
+        time.sleep(0.5)  # Simulate processing time
+        generated_text += response_part
+        yield f"data: {response_part.replace(input_text, '')}"
+
+        if len(generated_text.replace(input_text, '')) > 2000 or timeout > 50:  # Limit the length of the generated text to prevent infinite loops
+            break
+        timeout += 1
 
     yield "data: END\n\n"
 
