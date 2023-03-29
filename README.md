@@ -89,6 +89,25 @@ torchrun --nproc_per_node=8 --master_port=<YOUR PORT> train.py \
     --tf32 True
 ```
 
+## Finetune with INT8 precision and LORA 
+1. Install dependencies
+
+```
+pip install -r requirements_int8.txt
+```
+
+2. If bitsandbytes doesn't work, [install it from source.](https://github.com/TimDettmers/bitsandbytes/blob/main/compile_from_source.md) Windows users can follow [these instructions](https://github.com/tloen/alpaca-lora/issues/17).
+
+3. Run finetuning
+```
+python finetune_int8.py
+```
+
+4. Inference
+```
+python generate_int8.py
+```
+
 
 ## Data
 The training data for this project was sourced from various resources. Firstly, we used Anki flashcards to automatically generate questions, from the front of the cards and anwers from the back of the card. Secondly, we generated medical question-answer pairs from [Wikidoc](https://www.wikidoc.org/index.php/Main_Page). We extracted paragraphs with relevant headings, and used Chat-GPT 3.5 to generate questions from the headings and using the corresponding paragraphs as answers. This dataset is still under development and we believe that approximately 70% of these question answer pairs are factual correct. Thirdly, we used StackExchange to extract question-answer pairs, taking the top-rated question from five categories: Academia, Bioinformatics, Biology, Fitness, and Health. Additionally, we used a dataset from https://arxiv.org/abs/2303.14070 consisting of 200,000 question-answer pairs, available at https://github.com/Kent0n-Li/ChatDoctor.
