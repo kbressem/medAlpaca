@@ -186,20 +186,38 @@
             hljs.configure({ useBR: true });
 
             let latestBotResponse = null;
+            let responseStarted = false;
 
             function addMessageToChatbox(html, isBotResponse = false) {
                 const newMessage = $(`<div>${html}</div>`);
 
                 if (isBotResponse) {
-                    const chatbotName = $("#chatbot-selector option:selected").text();
-                    newMessage.prepend(`<strong>${chatbotName}:</strong><br>`);
-                    newMessage.addClass('bot-response');
-                    latestBotResponse = newMessage;
+                    // I am very bad at JS, but this does solve the bug, with updating the wrong lines
+                    const newMessage = $(`<div></div>`);
+                    if (!responseStarted) {
+                        const chatbotName = $("#chatbot-selector option:selected").text();
+                        const chatbotNameContainer = $(`<strong>${chatbotName}:</strong><br>`);
+                        newMessage.append(chatbotNameContainer);
+                        newMessage.addClass('bot-response');
+
+                        const messageContainer = $('<div></div>');
+                        messageContainer.html(html);
+                        newMessage.append(messageContainer);
+
+                        latestBotResponse = newMessage;
+                        $("#chatbox").append(newMessage);
+                        responseStarted = true;
+                    } else {
+                        // Update the entire bubble with the new HTML content, keeping the chatbot name intact
+                        latestBotResponse.find('div').html(html);
+                    }
                 } else {
                     const messageContent = $('<div class="message-content"></div>').html(html);
                     newMessage.prepend('<strong>User:</strong><br>');
                     newMessage.addClass('user-response');
+                    $("#chatbox").append(newMessage);
                 }
+
                 newMessage.find('pre code').each(function (i, block) {
                     hljs.highlightBlock(block);
                     const copyButton = $('<button class="copy-button">Copy</button>');
@@ -213,37 +231,16 @@
                     });
                     $(block).before(copyButton);
                 });
-                $("#chatbox").append(newMessage);
 
                 // Scroll to the bottom of the chatbox.
                 $("#chatbox").scrollTop($("#chatbox")[0].scrollHeight);
-
-                // Set the latest bot response.
-                if (isBotResponse) {
-                    latestBotResponse = newMessage;
-                }
-            }
-
-            function showTypingIndicator() {
-                const typingIndicator = $('<div class="bot-typing-indicator">...</div>');
-                const emptyBubble = $('<div class="bot-response"><strong>Awaiting response:</strong><br><p></p></div>');
-
-                $("#chatbox").append(typingIndicator);
-                $("#chatbox").append(emptyBubble);
-
-                scrollToLatestMessage();
-            }
-
-
-            function removeTypingIndicator() {
-                $(".bot-typing-indicator").remove();
-                $(".bot-response").last().remove();
             }
 
             function scrollToLatestMessage() {
                 const chatbox = $("#chatbox");
                 chatbox.scrollTop(chatbox[0].scrollHeight);
             }
+
 
             $("#message").on("keydown", function (event) {
                 if (event.keyCode === 13) {
@@ -271,19 +268,14 @@
 
                     scrollToLatestMessage();
 
-                    // Show typing indicator and empty speech bubble.
-                    showTypingIndicator();
-
                     // Replace the AJAX request with an EventSource for streaming responses
                     const eventSource = new EventSource(`/get_response?message=${encodeURIComponent(message)}&chatbot=${encodeURIComponent($("#chatbot-selector").val())}`);
 
                     eventSource.onmessage = function (event) {
                         if (event.data === "END") {
                             eventSource.close();
+                            responseStarted = false;
                         } else {
-                            // Remove typing indicator and empty speech bubble.
-                            removeTypingIndicator();
-
                             const responseHtml = converter.makeHtml(event.data);
                             addMessageToChatbox(`<p>${responseHtml}</p>`, true);
 
@@ -292,8 +284,6 @@
                     };
 
                     eventSource.onerror = function () {
-                        // Remove typing indicator and empty speech bubble in case of error.
-                        removeTypingIndicator();
                         alert("An error occurred. Please try again.");
                     };
                 }
