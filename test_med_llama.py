@@ -145,3 +145,5 @@ if __name__ == "__main__":
     else:
         Path("results").mkdir(parents=True, exist_ok=True)
         output_path = 'results/%s.csv' % model_name.split('/')[1]
+
+    df.to_csv(output_path, index=False)
