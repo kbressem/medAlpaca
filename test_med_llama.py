@@ -1,7 +1,7 @@
 import json
 import os
 from collections import defaultdict
-import tqdm
+from tqdm import tqdm
 from pathlib import Path
 import pandas as pd
 
@@ -53,13 +53,12 @@ def generate_prompt(instruction):
 {instruction}
 ### Response:
 """
-
 def generate_cotprompt(instruction):
-    return f"""Below is an instruction that describes a task. Write a response that appropriately completes the request. 
+    return f"""Below is an instruction that describes a task. Write a response that appropriately completes the request. Only answer the question. Keep token limit low.
 ### Instruction:
 {instruction}
 ### Response:
-A: let's think step by step
+let's think step by step
 """
 
 ############################ query model ############################
@@ -102,48 +101,51 @@ def query_model(
 ############################# main #################################
 
 if __name__ == "__main__":
-    json_file_path = 'data/test/step1.json'
-    questions = load_trivia_questions(json_file_path)
-    answers = load_trivia_questions(os.path.join('data/test', os.path.basename(json_file_path).split('.')[0] + '_solutions.json'))
-    
-    cot = True
-    model_name = 'GerMedBERT/medalpaca-7b' # "decapoda-research/llama-7b-hf"
-    cuda_id = 1
+
+    cot = False
+    model_name = "decapoda-research/llama-13b-hf"  # 'GerMedBERT/medalpaca-7b' 
+    cuda_id = 2
 
     model, tokenizer = get_model(model_name, 
                                  device_map={'':cuda_id}, 
                                  torch_dtype=torch.float16, 
                                  perf_tuned=True if model_name.split('/')[0] == 'decapoda-research' else False, 
-                                 perf_tuned_path="lora-alpaca-med-7b")
+                                 perf_tuned_path="lora-alpaca-med-13b")
     
-    keys = []
-    instructs = []
-    preditions = []
-    groundtruths = []
-    
-    for i, question_data in enumerate(questions):
-        question_string = generate_question_string(question_data)
+    for n in range(1, 4):
+        json_file_path = 'data/test/step%d.json' % n
+        questions = load_trivia_questions(json_file_path)
+        answers = load_trivia_questions(os.path.join('data/test', os.path.basename(json_file_path).split('.')[0] + '_solutions.json'))
+
+        keys = []
+        instructs = []
+        preditions = []
+        groundtruths = []
+        
+        for i, question_data in enumerate(tqdm(questions)):
+            question_string = generate_question_string(question_data)
+            if cot:
+                prompt = generate_cotprompt(question_string)
+            else:
+                prompt = generate_prompt(question_string)
+
+            llm_answer = query_model(prompt, model, tokenizer, 
+                                    max_new_tokens=300, # roughly 200 words
+                                    device = torch.device("cuda:"+ str(cuda_id))
+                                )
+            keys.append(i+1)
+            instructs.append(question_string)
+            preditions.append(llm_answer)
+            groundtruths.append(answers[str(i+1)])
+
+        df = pd.DataFrame(data={'key': keys, 'instruction': instructs, 
+                        'llama answer': preditions, 'ground truth': groundtruths})
         if cot:
-            prompt = generate_cotprompt(question_string)
+            Path("results/chain_of_thought/").mkdir(parents=True, exist_ok=True)
+            output_path = 'results/chain_of_thought/%s-cot.csv' % model_name.split('/')[1]
         else:
-            prompt = generate_prompt(question_string)
-
-        llm_answer = query_model(prompt, model, tokenizer, 
-                                max_new_tokens=300, # roughly 200 words
-                                device = torch.device("cuda:"+ str(cuda_id))
-                            )
-        keys.append(i+1)
-        instructs.append(question_string)
-        preditions.append(llm_answer)
-        groundtruths.append(answers[str(i+1)])
-
-    df = pd.DataFrame(data={'key': keys, 'instruction': instructs, 
-                    'llama answer': preditions, 'ground truth': groundtruths})
-    if cot:
-        Path("results/chain_of_thought/").mkdir(parents=True, exist_ok=True)
-        output_path = 'results/chain_of_thought/%s-cot.csv' % model_name.split('/')[1]
-    else:
-        Path("results").mkdir(parents=True, exist_ok=True)
-        output_path = 'results/%s.csv' % model_name.split('/')[1]
-
-    df.to_csv(output_path, index=False)
+            dir = 'results/step%d' % n
+            Path(dir).mkdir(parents=True, exist_ok=True)
+            output_path = dir + '/%s.csv' % model_name.split('/')[1]
+        
+        df.to_csv(output_path, index=False)
