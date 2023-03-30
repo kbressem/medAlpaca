@@ -47,15 +47,15 @@ def generate_question_string(question_data):
     choices = [f"    {key}. {question_data['options'][key]}\n" if key != list(question_data['options'].keys())[-1] else f"    {key}. {question_data['options'][key]}" for key in question_data['options'].keys()]
     return f"{question}\n{''.join(choices)}"
 
-def generate_prompt(instruction, cot=False):
-    if not cot:
-        return f"""Below is an instruction that describes a task. Write a response that appropriately completes the request. Only answer the question. Keep token limit low.
+def generate_prompt(instruction):
+    return f"""Below is an instruction that describes a task. Write a response that appropriately completes the request. Only answer the question. Keep token limit low.
 ### Instruction:
 {instruction}
 ### Response:
 """
-    else:
-        return f"""Below is an instruction that describes a task. Write a response that appropriately completes the request.
+
+def generate_cotprompt(instruction):
+    return f"""Below is an instruction that describes a task. Write a response that appropriately completes the request. 
 ### Instruction:
 {instruction}
 ### Response:
@@ -123,7 +123,10 @@ if __name__ == "__main__":
     
     for i, question_data in enumerate(questions):
         question_string = generate_question_string(question_data)
-        prompt = generate_prompt(question_string, cot=cot)
+        if cot:
+            prompt = generate_cotprompt(question_string)
+        else:
+            prompt = generate_prompt(question_string)
 
         llm_answer = query_model(prompt, model, tokenizer, 
                                 max_new_tokens=300, # roughly 200 words
