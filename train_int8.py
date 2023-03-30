@@ -114,6 +114,8 @@ def train(
         device_map=device_map,
     )
 
+    model = torch.compile(model)  # pytorch 2.0 required
+
     tokenizer = LlamaTokenizer.from_pretrained(base_model)
 
     tokenizer.pad_token_id = (
