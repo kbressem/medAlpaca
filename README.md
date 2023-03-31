@@ -91,6 +91,10 @@ torchrun --nproc_per_node=8 --master_port=<YOUR PORT> train.py \
 
 
 ## Data
+<img width="256" alt="Screenshot 2023-03-31 at 09 37 41" src="https://user-images.githubusercontent.com/37253540/229244284-72b00e82-0da1-4218-b08e-63864306631e.png">
+
+
+
 The training data for this project was sourced from various resources. Firstly, we used Anki flashcards to automatically generate questions, from the front of the cards and anwers from the back of the card. Secondly, we generated medical question-answer pairs from [Wikidoc](https://www.wikidoc.org/index.php/Main_Page). We extracted paragraphs with relevant headings, and used Chat-GPT 3.5 to generate questions from the headings and using the corresponding paragraphs as answers. This dataset is still under development and we believe that approximately 70% of these question answer pairs are factual correct. Thirdly, we used StackExchange to extract question-answer pairs, taking the top-rated question from five categories: Academia, Bioinformatics, Biology, Fitness, and Health. Additionally, we used a dataset from https://arxiv.org/abs/2303.14070 consisting of 200,000 question-answer pairs, available at https://github.com/Kent0n-Li/ChatDoctor.
 
 And the addition seven public biomedical datasets formatted in instruction tuning format is available to download here: https://drive.google.com/file/d/1YuHtEExQ4B_C4FPcHL3cAa0Y1Y2gCtuW/view?usp=share_link
