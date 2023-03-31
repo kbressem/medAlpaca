@@ -31,10 +31,12 @@ pip install -r requirements.txt
 Give the recency of LLaMA, HugginFace does not fully support it yet and you may run into [errors](https://github.com/tatsu-lab/stanford_alpaca#warning).
 To mitigate these issues, we have specified the dependency versions that have proven effective for our purposes. Please refer to the pinned requirements for a smoother experience.
 
-## Finetune The Models
-All models have been trained on 8A100 GPUs with 80GB VRAM
+## Training of medAlpaca
+<img width="256" alt="training your alpaca" src="https://user-images.githubusercontent.com/37253540/229250535-98f28e1c-0a8e-46e7-9e61-aeb98ef115cc.png">
 
-### Finetune LLaMA 
+All models have been trained on 8 A100 GPUs with 80GB VRAM
+
+### Train medAlpaca based on LLaMA 
 If you have access to the [LLaMA](https://arxiv.org/abs/2302.13971) or [Alpaca](https://crfm.stanford.edu/2023/03/13/alpaca.html) weights you can finetune the model with the following command. 
 Just replace `<PATH_TO_LLAMA_WEIGHTS>` with the folder containing you LLaMA or Alpaca weights. 
 
