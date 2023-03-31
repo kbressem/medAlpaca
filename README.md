@@ -9,12 +9,10 @@ These models have been trained using a variety of medical texts, encompassing re
 
 | Model Name                | Description              | 
 |---------------------------|--------------------------|
-| medOPT-6.7B               | Description of the model |
-| medOPT-13B                | Description of the model |
-| medOPT-30B                | Description of the model |
 | medAlpaca-6B              | Description of the model |
 | medAlpaca-13B             | Description of the model |
 | medAlpaca-30B             | Description of the model |
+| medAlpaca-65B             | Description of the model |
 
 ## Getting Started
 Create a new virtual environment, e.g. with conda
