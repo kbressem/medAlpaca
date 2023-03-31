@@ -93,6 +93,8 @@ torchrun --nproc_per_node=8 --master_port=<YOUR PORT> train.py \
 ## Data
 The training data for this project was sourced from various resources. Firstly, we used Anki flashcards to automatically generate questions, from the front of the cards and anwers from the back of the card. Secondly, we generated medical question-answer pairs from [Wikidoc](https://www.wikidoc.org/index.php/Main_Page). We extracted paragraphs with relevant headings, and used Chat-GPT 3.5 to generate questions from the headings and using the corresponding paragraphs as answers. This dataset is still under development and we believe that approximately 70% of these question answer pairs are factual correct. Thirdly, we used StackExchange to extract question-answer pairs, taking the top-rated question from five categories: Academia, Bioinformatics, Biology, Fitness, and Health. Additionally, we used a dataset from https://arxiv.org/abs/2303.14070 consisting of 200,000 question-answer pairs, available at https://github.com/Kent0n-Li/ChatDoctor.
 
+And the addition seven public biomedical datasets formatted in instruction tuning format is available to download here: https://drive.google.com/file/d/1YuHtEExQ4B_C4FPcHL3cAa0Y1Y2gCtuW/view?usp=share_link
+
 | Source                      | n items |
 |------------------------------|--------|
 | ChatDoc large                | 200000 |
@@ -116,12 +118,12 @@ We benchmarked all models on the USMLE self assessment.
 
 | Model Name                | USMLE Step1              | USMLE Step1              | USMLE Step1              | 
 |---------------------------|--------------------------|--------------------------|--------------------------|
-| medOPT-6.7B               |                          |                          |                          |
-| medOPT-13B                |                          |                          |                          |
-| medOPT-30B                |                          |                          |                          |
-| medAlpaca-6B              |                          |                          |                          |
+| Vanillastanford Alpaca 7b |                          |                          |                          |
+| medAlpaca 7b - No Lora    |                          |                          |                          |
+| medAlpaca-7B              |                          |                          |                          |
 | medAlpaca-13B             |                          |                          |                          |
 | medAlpaca-30B             |                          |                          |                          |
+| medAlpaca-65B             |                          |                          |                          |
 
 ## Chat with medAlpaca
 
