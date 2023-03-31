@@ -118,6 +118,8 @@ We provide two datasets: `medalpaca_small` and `medalpaca_large`.
 `medalpaca_large` consists of the whole dataset. You can apply here for access. Please note, that we are still in the process of cleaning and optimizing this dataset. 
 
 ## Benchmarks
+<img width="256" alt="benchmarks" src="https://user-images.githubusercontent.com/37253540/229249302-20ff8a88-95b4-42a3-bdd8-96a9dce9a92b.png">
+
 We benchmarked all models on the USMLE self assessment. 
 
 | Model Name                | USMLE Step1              | USMLE Step1              | USMLE Step1              | 
