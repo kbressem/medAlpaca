@@ -72,25 +72,29 @@ We named this as M2-Medical Meadow.
 TODO: KENO put the logo of Medical Meadow here
 
 Medical Meadow contained total of 1.5M data points throughout variety of tasks.
-The first part of Medical Meadow is QA/dialog pairs from the internet as we named it as M2i (Medical Meadow internet) 
-The training data for this project was sourced from various resources. Firstly, we used Anki flashcards to automatically generate questions, from the front of the cards and anwers from the back of the card. Secondly, we generated medical question-answer pairs from [Wikidoc](https://www.wikidoc.org/index.php/Main_Page). We extracted paragraphs with relevant headings, and used Chat-GPT 3.5 to generate questions from the headings and using the corresponding paragraphs as answers. This dataset is still under development and we believe that approximately 70% of these question answer pairs are factual correct. Thirdly, we used StackExchange to extract question-answer pairs, taking the top-rated question from five categories: Academia, Bioinformatics, Biology, Fitness, and Health. Additionally, we used a dataset from https://arxiv.org/abs/2303.14070 consisting of 200,000 question-answer pairs, available at https://github.com/Kent0n-Li/ChatDoctor.
 
-And the second part of Medical Meadow is a variety of biomedical-realated open sourced NLP tasks as we named it as M2NLP
+Firstly, we used Anki flashcards to automatically generate questions, from the front of the cards and anwers from the back of the card. Secondly, we generated medical question-answer pairs from [Wikidoc](https://www.wikidoc.org/index.php/Main_Page). We extracted paragraphs with relevant headings, and used Chat-GPT 3.5 to generate questions from the headings and using the corresponding paragraphs as answers. This dataset is still under development and we believe that approximately 70% of these question answer pairs are factual correct. 
+
+Thirdly, we used StackExchange to extract question-answer pairs, taking the top-rated question from five categories: Academia, Bioinformatics, Biology, Fitness, and Health. 
+
+Additionally, we used a dataset from https://arxiv.org/abs/2303.14070 consisting of 200,000 question-answer pairs, available at https://github.com/Kent0n-Li/ChatDoctor.
+
 This part of the data contains seven public biomedical datasets formatted in instruction tuning format is available to download here: https://drive.google.com/file/d/1YuHtEExQ4B_C4FPcHL3cAa0Y1Y2gCtuW/view?usp=share_link
 
 WE welcome anyone to add more 'grass' onto Medical Meadow!
 
 | Source                      | n items |
 |------------------------------|--------|
-| ChatDoc large (M2i)               | 200000 |
-| wikidoc (M2i)                     | 67704  |
-| Stackexchange academia (M2i)       | 40865  |
-| Anki flashcards (M2i)              | 33955  |
-| Stackexchange biology (M2i)        | 27887  |
-| Stackexchange fitness (M2i)       | 9833   |
-| Stackexchange health (M2i)         | 7721   |
-| Wikidoc patient information (M2i)| 5942   |
-| Stackexchange bioinformatics (M2i) | 5407   |
+| ChatDoc large                | 200000 |
+| wikidoc                      | 67704  |
+| Stackexchange academia       | 40865  |
+| Anki flashcards              | 33955  |
+| Stackexchange biology        | 27887  |
+| Stackexchange fitness        | 9833   |
+| Stackexchange health         | 7721   |
+| Wikidoc patient information  | 5942   |
+| Stackexchange bioinformatics | 5407   |
+
 
 
 ## Benchmarks
