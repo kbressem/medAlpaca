@@ -12,7 +12,7 @@ import transformers
 assert (
     "LlamaTokenizer" in transformers._import_structure["models.llama"]
 ), "LLaMA is now in HuggingFace's main branch.\nPlease reinstall it: pip uninstall transformers && pip install git+https://github.com/huggingface/transformers.git"
-from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig
+from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig, set_seed
 
 ############################ load model ############################
 def get_model(model_name, device_map, torch_dtype, perf_tuned=False, perf_tuned_path=None):
@@ -30,7 +30,9 @@ def get_model(model_name, device_map, torch_dtype, perf_tuned=False, perf_tuned_
     if perf_tuned:
         model = PeftModel.from_pretrained(
             model, perf_tuned_path, 
-            torch_dtype=torch_dtype, device_map=device_map
+            torch_dtype=torch_dtype, 
+            device_map=device_map,
+            use_auth_token=True,
         )
     model.eval()
     return model, tokenizer
@@ -47,10 +49,11 @@ def generate_question_string(question_data):
     choices = [f"    {key}. {question_data['options'][key]}\n" if key != list(question_data['options'].keys())[-1] else f"    {key}. {question_data['options'][key]}" for key in question_data['options'].keys()]
     return f"{question}\n{''.join(choices)}"
 
+
 def generate_prompt(instruction):
     return f"""Below is an instruction that describes a task. Write a response that appropriately completes the request. Only answer the question. Keep token limit low.
 ### Instruction:
-{instruction}
+{instruction} 
 ### Response:
 """
 
@@ -74,6 +77,7 @@ def query_model(
         device,
         max_new_tokens=50,
         temperature=0.1,
+        do_sample=False,
         top_p=0.75,
         top_k=40,
         num_beams=4,
@@ -83,9 +87,10 @@ def query_model(
         input_ids = inputs["input_ids"].to(device)
         generation_config = GenerationConfig(
             temperature=temperature,
+            do_sample=do_sample,
             # top_p=top_p,
             # top_k=top_k,
-            # num_beams=num_beams,
+            # num_beams=num_beams if do_sample else 1,
             **kwargs,
         )
         with torch.no_grad():
@@ -108,14 +113,16 @@ def query_model(
 if __name__ == "__main__":
 
     cot = False
-    model_name = "decapoda-research/llama-13b-hf"  # 'GerMedBERT/medalpaca-7b' 
-    cuda_id = 2
+    model_name = 'decapoda-research/llama-7b-hf' # 'chavinlo/alpaca-native' # 
+    cuda_id = 0
 
     model, tokenizer = get_model(model_name, 
                                  device_map={'':cuda_id}, 
                                  torch_dtype=torch.float16, 
-                                 perf_tuned=True if model_name.split('/')[0] == 'decapoda-research' else False, 
-                                 perf_tuned_path="lora-alpaca-med-13b")
+                                 perf_tuned=False,
+                                 # perf_tuned=True if model_name.split('/')[0] == 'decapoda-research' else False, 
+                                 # perf_tuned_path="GerMedBERT/medalpaca-lora-7b-8bit",
+                                 )
     
     for n in range(1, 4):
         json_file_path = 'data/test/step%d.json' % n
@@ -124,7 +131,8 @@ if __name__ == "__main__":
 
         keys = []
         instructs = []
-        preditions = []
+        preditions_greedy = []
+        predictins_sample = defaultdict(list)
         groundtruths = []
         
         for i, question_data in enumerate(tqdm(questions)):
@@ -133,24 +141,45 @@ if __name__ == "__main__":
                 prompt = generate_cotprompt(question_string)
             else:
                 prompt = generate_prompt(question_string)
-
-            llm_answer = query_model(prompt, model, tokenizer, 
+            
+            # get top1 prediction from greedy search
+            llm_answer_greedy = query_model(prompt, model, tokenizer, 
                                     max_new_tokens=300, # roughly 200 words
                                     device = torch.device("cuda:"+ str(cuda_id))
-                                )
-            keys.append(i+1)
+                                    )
+            preditions_greedy.append(llm_answer_greedy)
+            # get top5 predictions from sampling
+            for idx in range(5):
+                set_seed(idx+88)
+                llm_answer = query_model(prompt, model, tokenizer, 
+                                        max_new_tokens=300, # roughly 200 words
+                                        device = torch.device("cuda:"+ str(cuda_id)),
+                                        do_sample=True,
+                                        # num_beams=4,
+                                        )
+                predictins_sample['sample %d' %idx].append(llm_answer)
+
+            keys.append('No.%d' %(i+1))
             instructs.append(question_string)
-            preditions.append(llm_answer)
             groundtruths.append(answers[str(i+1)])
 
-        df = pd.DataFrame(data={'key': keys, 'instruction': instructs, 
-                        'llama answer': preditions, 'ground truth': groundtruths})
+        df = pd.DataFrame(data={'key': keys, 
+                                'instruction': instructs, 
+                                'llama top1': preditions_greedy,
+                                'llama top5 sample 0': predictins_sample['sample 0'],
+                                'llama top5 sample 1': predictins_sample['sample 1'],
+                                'llama top5 sample 2': predictins_sample['sample 2'],
+                                'llama top5 sample 3': predictins_sample['sample 3'],
+                                'llama top5 sample 4': predictins_sample['sample 4'], 
+                                'ground truth': groundtruths}
+                                )
         if cot:
             Path("results/chain_of_thought/").mkdir(parents=True, exist_ok=True)
             output_path = 'results/chain_of_thought/%s-cot.csv' % model_name.split('/')[1]
         else:
-            dir = 'results/step%d' % n
+            dir = 'results_new/step%d' % n
             Path(dir).mkdir(parents=True, exist_ok=True)
-            output_path = dir + '/%s.csv' % model_name.split('/')[1]
+            output_path = dir + '/%s.json' % 'llama_naive'
         
-        df.to_csv(output_path, index=False)
+        df = df.set_index('key')
+        df.to_json(output_path, orient="index", indent=4)
