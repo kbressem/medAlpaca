@@ -112,5 +112,7 @@ We benchmarked all models on the USMLE self assessment.
 | medAlpaca-65B             |                          |                          |                          |
 
 ## Chat with medAlpaca
+<img width="256" alt="chat-lama" src="https://user-images.githubusercontent.com/37253540/229261366-5cce9a60-176a-471b-80fd-ba390539da72.png">
+
 
 TODO: Add Docker + WebApp
