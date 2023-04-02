@@ -9,12 +9,10 @@ These models have been trained using a variety of medical texts, encompassing re
 
 | Model Name                | Description              | 
 |---------------------------|--------------------------|
-| medOPT-6.7B               | Description of the model |
-| medOPT-13B                | Description of the model |
-| medOPT-30B                | Description of the model |
 | medAlpaca-6B              | Description of the model |
 | medAlpaca-13B             | Description of the model |
 | medAlpaca-30B             | Description of the model |
+| medAlpaca-65B             | Description of the model |
 
 ## Getting Started
 Create a new virtual environment, e.g. with conda
@@ -31,10 +29,12 @@ pip install -r requirements.txt
 Give the recency of LLaMA, HugginFace does not fully support it yet and you may run into [errors](https://github.com/tatsu-lab/stanford_alpaca#warning).
 To mitigate these issues, we have specified the dependency versions that have proven effective for our purposes. Please refer to the pinned requirements for a smoother experience.
 
-## Finetune The Models
-All models have been trained on 8A100 GPUs with 80GB VRAM
+## Training of medAlpaca
+<img width="256" alt="training your alpaca" src="https://user-images.githubusercontent.com/37253540/229250535-98f28e1c-0a8e-46e7-9e61-aeb98ef115cc.png">
 
-### Finetune LLaMA 
+All models have been trained on 8 A100 GPUs with 80GB VRAM
+
+### Train medAlpaca based on LLaMA 
 If you have access to the [LLaMA](https://arxiv.org/abs/2302.13971) or [Alpaca](https://crfm.stanford.edu/2023/03/13/alpaca.html) weights you can finetune the model with the following command. 
 Just replace `<PATH_TO_LLAMA_WEIGHTS>` with the folder containing you LLaMA or Alpaca weights. 
 
@@ -62,55 +62,27 @@ torchrun --nproc_per_node=8 --master_port=<YOUR PORT> train.py \
    --tf32 True
 ```
 
-### Finetune OPT
-Finetune OPT ([Open Pre-trained Transformer Language Models](https://arxiv.org/abs/2205.01068))
-
-```bash
-torchrun --nproc_per_node=8 --master_port=<YOUR PORT> train.py \
-    --model_name_or_path "facebook/opt-6.7b" \
-    --data_path medalpaca_small.json \
-    --bf16 True \
-    --output_dir models \
-    --num_train_epochs 3 \
-    --per_device_train_batch_size 4 \
-    --per_device_eval_batch_size 4 \
-    --gradient_accumulation_steps 8 \
-    --evaluation_strategy "no" \
-    --save_strategy "steps" \
-    --save_steps 2000 \
-    --save_total_limit 1 \
-    --learning_rate 2e-5 \
-    --weight_decay 0. \
-    --warmup_ratio 0.03 \
-    --lr_scheduler_type "cosine" \
-    --logging_steps 1 \
-    --fsdp "full_shard auto_wrap" \
-    --fsdp_transformer_layer_cls_to_wrap 'OPTDecoderLayer' \
-    --tf32 True
-```
-
-## Finetune with INT8 precision and LORA 
-1. Install dependencies
-
-```
-pip install -r requirements_int8.txt
-```
-
-2. If bitsandbytes doesn't work, [install it from source.](https://github.com/TimDettmers/bitsandbytes/blob/main/compile_from_source.md) Windows users can follow [these instructions](https://github.com/tloen/alpaca-lora/issues/17).
-
-3. Run finetuning
-```
-python finetune_int8.py
-```
-
-4. Inference
-```
-python generate_int8.py
-```
-
 
 ## Data
-The training data for this project was sourced from various resources. Firstly, we used Anki flashcards to automatically generate questions, from the front of the cards and anwers from the back of the card. Secondly, we generated medical question-answer pairs from [Wikidoc](https://www.wikidoc.org/index.php/Main_Page). We extracted paragraphs with relevant headings, and used Chat-GPT 3.5 to generate questions from the headings and using the corresponding paragraphs as answers. This dataset is still under development and we believe that approximately 70% of these question answer pairs are factual correct. Thirdly, we used StackExchange to extract question-answer pairs, taking the top-rated question from five categories: Academia, Bioinformatics, Biology, Fitness, and Health. Additionally, we used a dataset from https://arxiv.org/abs/2303.14070 consisting of 200,000 question-answer pairs, available at https://github.com/Kent0n-Li/ChatDoctor.
+<img width="256" alt="Screenshot 2023-03-31 at 09 37 41" src="https://user-images.githubusercontent.com/37253540/229244284-72b00e82-0da1-4218-b08e-63864306631e.png">
+
+As your beloved llama/alpaca need to eat and grow. We made efforts to collect good biomedical open-sourced datasets and clean them into instruction tuning formats.
+
+
+We named this as M2-Medical Meadow. 
+TODO: KENO put the logo of Medical Meadow here
+
+Medical Meadow contained total of 1.5M data points throughout variety of tasks.
+
+Firstly, we used Anki flashcards to automatically generate questions, from the front of the cards and anwers from the back of the card. Secondly, we generated medical question-answer pairs from [Wikidoc](https://www.wikidoc.org/index.php/Main_Page). We extracted paragraphs with relevant headings, and used Chat-GPT 3.5 to generate questions from the headings and using the corresponding paragraphs as answers. This dataset is still under development and we believe that approximately 70% of these question answer pairs are factual correct. 
+
+Thirdly, we used StackExchange to extract question-answer pairs, taking the top-rated question from five categories: Academia, Bioinformatics, Biology, Fitness, and Health. 
+
+Additionally, we used a dataset from https://arxiv.org/abs/2303.14070 consisting of 200,000 question-answer pairs, available at https://github.com/Kent0n-Li/ChatDoctor.
+
+This part of the data contains seven public biomedical datasets formatted in instruction tuning format is available to download here: https://drive.google.com/file/d/1YuHtEExQ4B_C4FPcHL3cAa0Y1Y2gCtuW/view?usp=share_link
+
+WE welcome anyone to add more 'grass' onto Medical Meadow!
 
 | Source                      | n items |
 |------------------------------|--------|
@@ -125,23 +97,23 @@ The training data for this project was sourced from various resources. Firstly, 
 | Stackexchange bioinformatics | 5407   |
 
 
-We provide two datasets: `medalpaca_small` and `medalpaca_large`. 
-
-`medalpaca_small` consists of 6000 Q/A pairs, consisting out of questions from the Wikidoc patient information and can be found in this repositories root directory
-`medalpaca_large` consists of the whole dataset. You can apply here for access. Please note, that we are still in the process of cleaning and optimizing this dataset. 
 
 ## Benchmarks
+<img width="256" alt="benchmarks" src="https://user-images.githubusercontent.com/37253540/229249302-20ff8a88-95b4-42a3-bdd8-96a9dce9a92b.png">
+
 We benchmarked all models on the USMLE self assessment. 
 
 | Model Name                | USMLE Step1              | USMLE Step1              | USMLE Step1              | 
 |---------------------------|--------------------------|--------------------------|--------------------------|
-| medOPT-6.7B               |                          |                          |                          |
-| medOPT-13B                |                          |                          |                          |
-| medOPT-30B                |                          |                          |                          |
-| medAlpaca-6B              |                          |                          |                          |
+| Vanillastanford Alpaca 7b |                          |                          |                          |
+| medAlpaca 7b - No Lora    |                          |                          |                          |
+| medAlpaca-7B              |                          |                          |                          |
 | medAlpaca-13B             |                          |                          |                          |
 | medAlpaca-30B             |                          |                          |                          |
+| medAlpaca-65B             |                          |                          |                          |
 
 ## Chat with medAlpaca
+<img width="256" alt="chat-lama" src="https://user-images.githubusercontent.com/37253540/229261366-5cce9a60-176a-471b-80fd-ba390539da72.png">
+
 
 TODO: Add Docker + WebApp
