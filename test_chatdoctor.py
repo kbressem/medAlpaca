@@ -1,43 +1,38 @@
-import os
 import json
-import pandas as pd
+import os
+from collections import defaultdict
 from tqdm import tqdm
 from pathlib import Path
-from collections import defaultdict
+import pandas as pd
 
 import torch
 import transformers
-from peft import PeftModel
+
 assert (
     "LlamaTokenizer" in transformers._import_structure["models.llama"]
 ), "LLaMA is now in HuggingFace's main branch.\nPlease reinstall it: pip uninstall transformers && pip install git+https://github.com/huggingface/transformers.git"
 from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig, set_seed
 
-
 ############################ load model ############################
-def get_model(model_name, device_map, torch_dtype, perf_tuned=False, perf_tuned_path=None):
+def load_model(model_name, device_map="auto"):
+    global model, tokenizer, generator
+    print("Loading "+model_name+"...")
+    if device_map == "zero":
+        device_map = "balanced_low_0"
 
-    device_map = device_map if perf_tuned else 'auto'
-    tokenizer = LlamaTokenizer.from_pretrained(model_name, 
-                                               device_map=device_map,
-                                               use_auth_token=True
-                                               )
+    # config
+    gpu_count = torch.cuda.device_count()
+    print('gpu_count', gpu_count)
+
+    tokenizer = LlamaTokenizer.from_pretrained(model_name)
     model = LlamaForCausalLM.from_pretrained(
         model_name,
-        load_in_8bit=True if perf_tuned else False,
-        torch_dtype=torch_dtype,
-        device_map=device_map,
-        use_auth_token=True,
-    )
-    if perf_tuned:
-        model = PeftModel.from_pretrained(
-            model, perf_tuned_path, 
-            torch_dtype=torch_dtype, 
-            device_map=device_map,
-            use_auth_token=True,
-        )
-    model = model.eval()
-    return model, tokenizer
+        torch_dtype=torch.float16,
+        low_cpu_mem_usage=True,
+        load_in_8bit=False,
+        cache_dir="cache"
+    ).cuda()
+    generator = model.generate
 
 ########################## generate prompt ###########################
 
@@ -74,38 +69,34 @@ Below is an instruction that describes a task. Write a response that appropriate
 ############################ query model ############################
 def query_model(
         prompt,
-        model,
         tokenizer,
-        device,
         max_new_tokens=50,
+        do_sample=False,
         temperature=1.0,
-        do_sample=True,
-        top_p=1.0,
         top_k=50,
-        num_return_sequences=1,
-        **kwargs,
+        top_p=1.0,
     ):
         inputs = tokenizer(prompt, return_tensors="pt")
-        input_ids = inputs["input_ids"].to(device)
-        generation_config = GenerationConfig(
-            temperature=temperature,
-            do_sample=do_sample,
-            top_p=top_p,
-            top_k=top_k,
-            num_return_sequences=num_return_sequences,
-            **kwargs,
-        )
+        input_ids = inputs["input_ids"].to('cuda')
+
         with torch.no_grad():
-            generation_output = model.generate(
+            generated_ids = generator(
                 input_ids=input_ids,
-                generation_config=generation_config,
-                return_dict_in_generate=True,
-                output_scores=True,
                 max_new_tokens=max_new_tokens,
+                use_cache=True,
+                pad_token_id=tokenizer.eos_token_id,
+                num_return_sequences=1,
+                do_sample=do_sample,
+                repetition_penalty=1.1, # 1.0 means 'off'. unfortunately if we penalize it it will not output Sphynx:
+                temperature=temperature, # default: 1.0
+                top_k = top_k, # default: 50
+                top_p = top_p, # default: 1.0
+                early_stopping=True,
             )
 
-        s = generation_output.sequences[0]
-        output = tokenizer.decode(s, skip_special_tokens=True)
+        output = tokenizer.batch_decode(generated_ids, skip_special_tokens=True)[0]
+        # s = generation_output.sequences[0]
+        # output = tokenizer.decode(s)
         response = output.split("### Response:")[1].strip()
         return response.split("### Instruction:")[0].strip()
 
@@ -114,16 +105,15 @@ def query_model(
 
 if __name__ == "__main__":
 
-    model_name = 'decapoda-research/llama-7b-hf' # 'chavinlo/alpaca-native' # 'GerMedBERT/medalpaca-7b'    
-    cuda_id = 2
-    set_seed(42)
+    cot = False
+    model_name = '../chatdoctor/'
+    model = None
+    tokenizer = None
+    generator = None
+    os.environ["CUDA_VISIBLE_DEVICES"]="7"
 
-    model, tokenizer = get_model(model_name, 
-                                 device_map={'':cuda_id}, 
-                                 torch_dtype=torch.float16, 
-                                 perf_tuned=True,
-                                 perf_tuned_path="GerMedBERT/medalpaca-lora-7b-8bit",
-                                 )
+    load_model(model_name)
+    set_seed(42)
     
     for n in range(1, 4):
         json_file_path = 'data/test/step%d.json' % n
@@ -139,36 +129,32 @@ if __name__ == "__main__":
         
         for i, question_data in enumerate(tqdm(questions)):
             question_string = generate_question_string(question_data)
-            prompt = generate_prompt(question_string)
             prompt_1shot = generate_1shotprompt(question_string)
+            prompt = generate_prompt(question_string)
             
             # get top1 prediction from greedy search
-            llm_answer_greedy = query_model(prompt, model, tokenizer, device='cuda',
-                                    max_new_tokens=50,
+            llm_answer_greedy = query_model(prompt, tokenizer, 
+                                    max_new_tokens=50, # roughly 200 words
                                     do_sample=False,
                                     temperature=0.1,
                                     )
             preditions_greedy.append(llm_answer_greedy)
             # get 1-shot prediction
-            llm_answer_1shot = query_model(prompt_1shot, model, tokenizer, device='cuda',
+            llm_answer_1shot = query_model(prompt_1shot, tokenizer,
                                     max_new_tokens=50,
                                     do_sample=False,
                                     temperature=0.1,
                                     )
             predictions_1shot.append(llm_answer_1shot)
-            
             # get top5 predictions from sampling
-            llamas = []
             for idx in range(5):
-                llm_answer = query_model(prompt, model, tokenizer, device='cuda',
-                                        max_new_tokens=50, 
+                llm_answer = query_model(prompt, tokenizer, 
+                                        max_new_tokens=50,
                                         do_sample=True,
                                         temperature=0.1*(idx+1),
                                         top_p=0.75, top_k=100,
                                         )
-            
                 predictins_sample['sample %d' %idx].append(llm_answer)
-                llamas.append(llm_answer)
 
             keys.append('No.%d' %(i+1))
             instructs.append(question_string)
@@ -177,7 +163,7 @@ if __name__ == "__main__":
         df = pd.DataFrame(data={'key': keys, 
                                 'instruction': instructs, 
                                 'llama top1': preditions_greedy,
-                                'llama top1 1-shot': predictions_1shot,
+                                'llama 1-shot': predictions_1shot,
                                 'llama top5 sample 0': predictins_sample['sample 0'],
                                 'llama top5 sample 1': predictins_sample['sample 1'],
                                 'llama top5 sample 2': predictins_sample['sample 2'],
@@ -188,6 +174,6 @@ if __name__ == "__main__":
 
         dir = 'results_updated/step%d' % n
         Path(dir).mkdir(parents=True, exist_ok=True)
-        output_path = dir + '/%s.json' % 'medalpaca-lora-7b-8bit'
+        output_path = dir + '/%s.json' % 'chatdoctor-7b'
         df = df.set_index('key')
         df.to_json(output_path, orient="index", indent=4)
