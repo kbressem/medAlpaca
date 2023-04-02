@@ -2,7 +2,9 @@
 data/
 models/
 scheduler/
-
+eval
+lora*
+wandb
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -129,7 +131,9 @@ venv.bak/
 .mypy_cache/
 .dmypy.json
 dmypy.json
+download.txt
 
 # Pyre type checker
 .pyre/
 .DS_Store
+.vscode/
