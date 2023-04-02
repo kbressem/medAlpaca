@@ -1,0 +1,55 @@
+{
+    "llama-7b-hf": {
+        "peft": "False",
+        "torch_dtype": "float16",
+        "base_model": "decapoda-research/llama-7b-hf",
+        "load_in_8bit": "False"
+    },
+    "alpaca-lora": {
+        "peft": "True",
+        "torch_dtype": "float16",
+        "base_model": "decapoda-research/llama-7b-hf",
+        "load_in_8bit": "True",
+        "lora_model_id": "tloen/alpaca-lora-7b"
+    },
+    "medalapca-7b": {
+        "peft": "False",
+        "torch_dtype": "float16",
+        "base_model": "GerMedBERT/medalpaca-7b",
+        "load_in_8bit": "False"
+    },
+    "medalapca-13b": {
+        "peft": "False",
+        "torch_dtype": "float16",
+        "base_model": "GerMedBERT/medalpaca-13b",
+        "load_in_8bit": "False"
+    },
+    "medalapca-lora-7b-8bit": {
+        "peft": "True",
+        "torch_dtype": "float16",
+        "base_model": "decapoda-research/llama-7b-hf",
+        "load_in_8bit": "True",
+        "lora_model_id": "GerMedBERT/medalpaca-lora-7b-8bit"
+    },
+    "medalapca-lora-13b-8bit": {
+        "peft": "True",
+        "torch_dtype": "float16",
+        "base_model": "decapoda-research/llama-13b-hf",
+        "load_in_8bit": "True",
+        "lora_model_id": "GerMedBERT/medalpaca-lora-13b-8bit"
+    },
+    "medalapca-lora-30b-8bit": {
+        "peft": "True",
+        "torch_dtype": "float16",
+        "base_model": "decapoda-research/llama-30b-hf",
+        "load_in_8bit": "True",
+        "lora_model_id": "GerMedBERT/medalpaca-lora-30b-8bit"
+    },
+    "medalapca-lora-65b-8bit": {
+        "peft": "True",
+        "torch_dtype": "float16",
+        "base_model": "decapoda-research/llama-65b-hf",
+        "load_in_8bit": "True",
+        "lora_model_id": "GerMedBERT/medalpaca-lora-65b-8bit"
+    }
+}
