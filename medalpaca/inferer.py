@@ -1,28 +1,38 @@
-import os
-os.environ['HF_HOME'] = "/sc-projects/sc-proj-cc06-medbert/hfcache"
 import sys
 import json
 import torch
 from torch import nn
 from peft import PeftModel
-import transformers
-from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig, set_seed
+from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig
+
+from .utils import load_json
+
 assert torch.cuda.is_available(), "No cuda device detected"
 
-
 class medAlapaca: 
-    "Basic inference method to access medAlpaca models programmatically"
+    """
+    A basic inference class for accessing medAlpaca models programmatically.
+
+    This class provides methods for loading supported medAlpaca models, tokenizing inputs,
+    and generating outputs based on the specified model and configurations.
+
+    Attributes:
+        available_models (dict): A dictionary containing the supported models and their configurations.
+
+    Args:
+        modelname (str): The name of the medAlpaca model to use for inference.
+        prompt_template (str): The path to the JSON file containing the prompt template.
+
+    Raises:
+        ValueError: If the specified `modelname` is not in the list of available models.
+
+    Example:
+
+        medalpaca = medAlapaca("medalapca-7b", "prompts/alpaca.json")
+        response = medalpaca(input="What is Amoxicillin?")
+    """
         
-    available_models = {
-        "llama-7b-hf": {"peft": False, "torch_dtype": torch.float16, "base_model": "decapoda-research/llama-7b-hf", "load_in_8bit": False},
-        "alpaca-lora": {"peft": True, "torch_dtype": torch.float16, "base_model": "decapoda-research/llama-7b-hf", "load_in_8bit": True, "lora_model_id":"tloen/alpaca-lora-7b"},
-        "medalapca-7b": {"peft": False, "torch_dtype": torch.float16, "base_model": "GerMedBERT/medalpaca-7b", "load_in_8bit": False},
-        "medalapca-13b": {"peft": False, "torch_dtype": torch.float16, "base_model": "GerMedBERT/medalpaca-13b", "load_in_8bit": False},
-        "medalapca-lora-7b-8bit": {"peft": True, "torch_dtype": torch.float16, "base_model": "decapoda-research/llama-7b-hf", "load_in_8bit": True, "lora_model_id": "GerMedBERT/medalpaca-lora-7b-8bit"},
-        "medalapca-lora-13b-8bit": {"peft": True, "torch_dtype": torch.float16, "base_model": "decapoda-research/llama-13b-hf", "load_in_8bit": True, "lora_model_id": "GerMedBERT/medalpaca-lora-13b-8bit" },
-        "medalapca-lora-30b-8bit": {"peft": True, "torch_dtype": torch.float16, "base_model": "decapoda-research/llama-30b-hf", "load_in_8bit": True, "lora_model_id": "GerMedBERT/medalpaca-lora-30b-8bit" },
-        "medalapca-lora-65b-8bit": {"peft": True, "torch_dtype": torch.float16, "base_model": "decapoda-research/llama-65b-hf", "load_in_8bit": True, "lora_model_id": "GerMedBERT/medalpaca-lora-65b-8bit" },
-    }
+    available_models = load_json("configs/supported_models.json")
     
     def __init__(self, modelname: str, prompt_template: str) -> None:
         if modelname not in self.available_models.keys(): 
@@ -63,17 +73,35 @@ class medAlapaca:
     
     def __call__(
         self, 
-        input: str, 
+        input: str,  
         instruction: str = None,
-        temperature=0.1,
-        top_p=0.75,
-        top_k=40,
-        num_beams=4,
-        max_new_tokens=128,
+        temperature: float = 0.1,
+        top_p: float = 0.75,
+        top_k: int = 40,
+        num_beams: int = 4,
+        max_new_tokens: int = 128,
         verbose: bool = False,
         **kwargs
     ) -> str: 
-        
+        """
+        Generate a response from the medAlpaca model using the given input and instruction.
+
+        Args:
+            input (str): The input text to provide to the model.
+            instruction (str, optional): An optional instruction to guide the model's response.
+            temperature (float, optional): Sampling temperature. Higher values make the output more random.
+            top_p (float, optional): Nucleus sampling probability threshold. Controls diversity of output.
+            top_k (int, optional): Top-k sampling. Controls the number of candidates considered for sampling.
+            num_beams (int, optional): Number of beams for beam search. 
+                Controls the number of alternative sequences considered.
+            max_new_tokens (int, optional): Maximum number of new tokens to generate in the response.
+            verbose (bool, optional): If True, print the prompt before generating a response.
+            **kwargs: Additional keyword arguments to pass to the `GenerationConfig`.
+
+        Returns:
+            str: The generated response from the medAlpaca model.
+        """
+
         prompt = self.prompt_template["prompt_input"].format(
                 instruction=instruction, input=input
             )
