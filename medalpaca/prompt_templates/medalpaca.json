@@ -1,0 +1,8 @@
+{
+    "description": "Default Template for medAlpaca.",
+    "primer": "Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.",
+    "instruction": "\n\n### Instruction:\n",
+    "input": "\n\n### Input:\n",
+    "output": "\n\n### Response:\n",
+    "response_split": "### Response:"
+}
