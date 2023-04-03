@@ -1,6 +1,6 @@
 ![medalpaca](https://user-images.githubusercontent.com/37253540/228315829-b22f793c-2dcd-4c03-a32d-43720085a7de.png)
 
-# medAlpaca: a set of large language models, finetuned for medical question answering
+# medAlpaca: Finetuned Large Language Models for Medical Question Answering
 
 ## Project Overview
 MedAlpaca expands upon both [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) and 
