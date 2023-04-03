@@ -14,8 +14,7 @@ cd /path/to/gitrepo
 source /home/user/miniconda3/etc/profile.d/conda.sh
 conda activate medalpaca
 
-# recommended to manually set the hf cache dir, as the files
-# are huge
+# recommended to manually set the hf cache dir, as the files are huge
 export HF_HOME="/path/to/your/hfcache"
 
 # feel free to adapt the below command, to run the training
