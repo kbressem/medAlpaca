@@ -2,8 +2,6 @@ import json
 import logging
 from typing import Dict, Optional
 
-from transformers import Tokenizer
-
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
 
@@ -39,7 +37,7 @@ class DataHanlder:
 
     def __init__(
         self,
-        tokenizer: Tokenizer,
+        tokenizer,
         prompt_template: str = "prompts/medalpaca.json",
         model_max_length: int = 256,
         train_on_inputs: bool = True,

@@ -24,7 +24,7 @@ from transformers import (
 
 
 def main(
-    model: str = "decapoda-research/llama-7b-hf",
+    model: str, # e.g. "decapoda-research/llama-7b-hf"
     val_set_size: Union[int, float] = 0.1,
     prompt_template: str = "prompts/medalpaca.json",
     model_max_length: int = 256,  # should not exceed 2048, as LLaMA is trained with this
@@ -39,7 +39,7 @@ def main(
     per_device_batch_size: int = 2,
     num_epochs: int = 3,
     learning_rate: float = 2e-5,
-    gradient_accumulation_steps: int = 128,
+    global_batch_size: int = 128,
     output_dir: str = "./output",
     save_total_limit: int = 3,
     eval_steps: int = 200,
@@ -92,8 +92,9 @@ def main(
         The number of epochs for training. Default is 3.
     learning_rate (float, optional):
         The learning rate for the optimizer. Default is 2e-5.
-    gradient_accumulation_steps (int, optional):
-        The number of gradient accumulation steps. Default is 128.
+    global_batch_size (int, optional):
+        The number of samples the model needs to see until the weights get updated.
+        Default is 128.
     output_dir (str, optional):
         The directory to save the model and outputs. Default is "./output".
     save_total_limit (int, optional):
@@ -133,9 +134,13 @@ def main(
     model_name = model
     world_size = int(os.environ.get("WORLD_SIZE", 1))
     ddp = world_size != 1
+    gradient_accumulation_steps = global_batch_size // per_device_batch_size
     if ddp:
         device_map = {"": int(os.environ.get("LOCAL_RANK") or 0)}
         gradient_accumulation_steps = gradient_accumulation_steps // world_size
+        if use_lora:
+            # integer and mixed dtypes are not supported with fsdp
+            fsdp, fsdp_transformer_layer_cls_to_wrap = "", None
     else:
         fsdp, fsdp_transformer_layer_cls_to_wrap = "", None
 
