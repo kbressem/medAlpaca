@@ -2,7 +2,7 @@
 data/
 models/
 scheduler/
-eval
+eval/outputs
 lora*
 wandb
 # Byte-compiled / optimized / DLL files

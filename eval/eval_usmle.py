@@ -1,7 +1,10 @@
+import sys
+sys.path.append("..")
+
 import json
 import fire
 from tqdm import tqdm
-from inferer import medAlapaca
+from medalpaca.inferer import MedAlapaca
 
 
 
@@ -37,7 +40,7 @@ def main(
 ): 
     assert model_name in available_models, model_name
     
-    model = medAlapaca(model_name, prompt_template)
+    model = MedAlapaca(model_name, prompt_template)
     for step_no in [1, 2, 3]: 
         eval_step(
             model, step_no=step_no, n_samples=n_samples, model_name=model_name, cot="cot" in prompt_template
