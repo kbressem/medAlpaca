@@ -1,20 +1,13 @@
-import os
 import json
-import pandas as pd
-from tqdm import tqdm
-from pathlib import Path
-from collections import defaultdict
-
 import torch
 import transformers
 from peft import PeftModel
 assert (
     "LlamaTokenizer" in transformers._import_structure["models.llama"]
 ), "LLaMA is now in HuggingFace's main branch.\nPlease reinstall it: pip uninstall transformers && pip install git+https://github.com/huggingface/transformers.git"
-from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig, set_seed
+from transformers import LlamaTokenizer, LlamaForCausalLM, GenerationConfig
 
 
-############################ load model ############################
 def get_model(model_name, device_map, torch_dtype, perf_tuned=False, perf_tuned_path=None):
 
     device_map = device_map if perf_tuned else 'auto'
@@ -39,7 +32,6 @@ def get_model(model_name, device_map, torch_dtype, perf_tuned=False, perf_tuned_
     model = model.eval()
     return model, tokenizer
 
-########################## generate prompt ###########################
 
 def load_trivia_questions(file_path):
     with open(file_path, 'r') as file:
@@ -73,7 +65,6 @@ A: Let's think step by step. We refer to Wikipedia articles on medicine for help
 ### Response:
 """
 
-############################ query model ############################
 def query_model(
         prompt,
         model,
@@ -110,86 +101,3 @@ def query_model(
         output = tokenizer.decode(s, skip_special_tokens=True)
         response = output.split("### Response:")[1].strip()
         return response.split("### Instruction:")[0].strip()
-
-
-############################# main #################################
-
-if __name__ == "__main__":
-
-    model_name = 'decapoda-research/llama-13b-hf' # 'chavinlo/alpaca-native' # 'GerMedBERT/medalpaca-7b'    
-    cuda_id = 1
-    set_seed(42)
-
-    model, tokenizer = get_model(model_name, 
-                                 device_map={'':cuda_id}, 
-                                 torch_dtype=torch.float16, 
-                                 perf_tuned=True,
-                                 perf_tuned_path='lora-alpaca-13b',
-                                 )
-    
-    for n in range(1, 4):
-        json_file_path = 'data/test/step%d.json' % n
-        questions = load_trivia_questions(json_file_path)
-        answers = load_trivia_questions(os.path.join('data/test', os.path.basename(json_file_path).split('.')[0] + '_solutions.json'))
-
-        keys = []
-        instructs = []
-        preditions_greedy = []
-        predictions_1shot = []
-        predictins_sample = defaultdict(list)
-        groundtruths = []
-        
-        for i, question_data in enumerate(tqdm(questions)):
-            question_string = generate_question_string(question_data)
-            prompt = generate_prompt(question_string)
-            prompt_1shot = generate_1shotprompt(question_string)
-            
-            # get top1 prediction from greedy search
-            llm_answer_greedy = query_model(prompt, model, tokenizer, device='cuda',
-                                    max_new_tokens=50,
-                                    do_sample=False,
-                                    temperature=0.1,
-                                    )
-            preditions_greedy.append(llm_answer_greedy)
-            # get 1-shot prediction
-            llm_answer_1shot = query_model(prompt_1shot, model, tokenizer, device='cuda',
-                                    max_new_tokens=50,
-                                    do_sample=False,
-                                    temperature=0.1,
-                                    )
-            predictions_1shot.append(llm_answer_1shot)
-            
-            # get top5 predictions from sampling
-            llamas = []
-            for idx in range(5):
-                llm_answer = query_model(prompt, model, tokenizer, device='cuda',
-                                        max_new_tokens=50, 
-                                        do_sample=True,
-                                        temperature=0.1*(idx+1),
-                                        top_p=0.75, top_k=100,
-                                        )
-            
-                predictins_sample['sample %d' %idx].append(llm_answer)
-                llamas.append(llm_answer)
-
-            keys.append('No.%d' %(i+1))
-            instructs.append(question_string)
-            groundtruths.append(answers[str(i+1)])
-
-        df = pd.DataFrame(data={'key': keys, 
-                                'instruction': instructs, 
-                                'llama top1': preditions_greedy,
-                                'llama top1 1-shot': predictions_1shot,
-                                'llama top5 sample 0': predictins_sample['sample 0'],
-                                'llama top5 sample 1': predictins_sample['sample 1'],
-                                'llama top5 sample 2': predictins_sample['sample 2'],
-                                'llama top5 sample 3': predictins_sample['sample 3'],
-                                'llama top5 sample 4': predictins_sample['sample 4'], 
-                                'ground truth': groundtruths}
-                                )
-
-        dir = 'results_updated/step%d' % n
-        Path(dir).mkdir(parents=True, exist_ok=True)
-        output_path = dir + '/%s.json' % 'llama-lora-13b-naive-ty'
-        df = df.set_index('key')
-        df.to_json(output_path, orient="index", indent=4)
