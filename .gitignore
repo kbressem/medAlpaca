@@ -1,3 +1,6 @@
+# experimental notebooks
+*.ipynb 
+
 # large files
 data/
 models/
@@ -5,6 +8,7 @@ scheduler/
 eval/outputs
 lora*
 wandb
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
