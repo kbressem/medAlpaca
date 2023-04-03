@@ -24,7 +24,7 @@ export HF_HOME="/path/to/your/hfcache"
 torchrun --nproc_per_node=8 --master_port=9876 medalpaca/train.py \
     --model 'decapoda-research/llama-7b-hf' \
     --data_path 'medical_meadow_small.json' \
-    --output_dir '/sc-projects/sc-proj-cc06-medbert/alpaca-zoo/in-training/lora-alpaca-7b' \
+    --output_dir './lora-alpaca-7b' \
     --train_in_8bit False \
     --use_lora False \
     --bf16 True \
