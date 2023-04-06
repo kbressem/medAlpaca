@@ -99,7 +99,7 @@ We will persistently update and refine the dataset, and we welcome everyone to c
 | Pubmed Health Advice | [original](https://aclanthology.org/D19-1473/), [preprocessed](vhuggingface.co/datasets/medalpaca/health_advice) |  10178    |  10178 |
 | Pubmed Causal               | [original](https://aclanthology.org/2020.coling-main.427/    ), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_pubmed_causal) |  2446    |  2446 |
 | ChatDoctor               | [original](https://github.com/Kent0n-Li/ChatDoctor  ) |  215000    |  10000 |
-
+| OpenAssistant | [original](https://huggingface.co/OpenAssistant) |  9209   | 9209     |
 
 
 ### Data description
