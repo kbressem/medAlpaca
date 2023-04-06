@@ -83,16 +83,16 @@ We will persistently update and refine the dataset, and we welcome everyone to c
 | Name                 |  Source                                                                 |  n       |  n included in training |
 |----------------------|-------------------------------------------------------------------------|----------|-------------------------|
 | Medical Flashcards   |  [medalpaca/medical_meadow_medical_flashcards](https://huggingface.co/datasets/medalpaca/medical_meadow_medical_flashcards)  |  33955  |  33955                 |
-| Wikidoc              |  [medalpaca/medalpaca/medical_meadow_wikidoc](https://huggingface.co/datasets/medalpaca/medical_meadow_wikidoc)    |  67704  |  10000                 |
-| Wikidoc Patient Information | [medalpaca/medalpaca/medical_meadow_wikidoc_patient_information](https://huggingface.co/datasets/medalpaca/medical_meadow_wikidoc_patient_information)    |  5942 |  5942 |
-| Stackexchange academia |  [medalpaca/medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  40865  |  40865                 |
-| Stackexchange biology |  [medalpaca/medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  27887  |  27887                 |
-| Stackexchange fitness |  [medalpaca/medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  9833  | 9833                 |
-| Stackexchange health |  [medalpaca/medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  7721  |  7721                 |
-| Stackexchange bioinformatics |  [medalpaca/medalpaca/medical_meadow_stack_exchange](https://huggingface.co/datasets/medalpaca/medical_meadow_stackexchange)    |  5407  |  5407                |
-| USMLE Self Assessment Step 1 |  [medalpaca/medalpaca/medical_meadow_usmle_self](https://huggingface.co/datasets/medalpaca/medical_meadow_usmle_self)    |  119  |  92 (test only)              |
-| USMLE Self Assessment Step 2 |  [medalpaca/medalpaca/medical_meadow_usmle_self](https://huggingface.co/vmedalpaca/medical_meadow_usmle_self)    |  120  |  110  (test only)              |
-| USMLE Self Assessment Step 3 |  [medalpaca/medalpaca/medical_meadow_usmle_self](vhuggingface.co/datasets/medalpaca/medical_meadow_usmle_self)    |  135  |  122  (test only)             |
+| Wikidoc              |  [medalpaca/medical_meadow_wikidoc](https://huggingface.co/datasets/medalpaca/medical_meadow_wikidoc)    |  67704  |  10000                 |
+| Wikidoc Patient Information | [medalpaca/medical_meadow_wikidoc_patient_information](https://huggingface.co/datasets/medalpaca/medical_meadow_wikidoc_patient_information)    |  5942 |  5942 |
+| Stackexchange academia |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  40865  |  40865                 |
+| Stackexchange biology |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  27887  |  27887                 |
+| Stackexchange fitness |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  9833  | 9833                 |
+| Stackexchange health |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  7721  |  7721                 |
+| Stackexchange bioinformatics |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/datasets/medalpaca/medical_meadow_stackexchange)    |  5407  |  5407                |
+| USMLE Self Assessment Step 1 |  [medalpaca/medical_meadow_usmle_self](https://huggingface.co/datasets/medalpaca/medical_meadow_usmle_self_assessment)    |  119  |  92 (test only)              |
+| USMLE Self Assessment Step 2 |  [medalpaca/medical_meadow_usmle_self](https://huggingface.co/vmedalpaca/medical_meadow_usmle_self_assessment)    |  120  |  110  (test only)              |
+| USMLE Self Assessment Step 3 |  [medalpaca/medical_meadow_usmle_self](vhuggingface.co/datasets/medalpaca/medical_meadow_usmle_self_assessment)    |  135  |  122  (test only)             |
 | MEDIQA               | [original](https://osf.io/fyg46/?view_only=), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_mediqa) |  2208    |  2208 |
 | CORD-19              | [original](https://www.kaggle.com/datasets/allen-institute-for-ai/CORD-19-research-challenge ), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_cord19) |  1056660    |  50000 |
 | MMMLU               | [original](https://github.com/hendrycks/test), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_mmmlu) |  3787    |  3787 |
