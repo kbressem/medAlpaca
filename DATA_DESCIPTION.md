@@ -60,7 +60,7 @@ This is a collection of open medical datasets. Please cite the respective source
 
 #### MEDIQA
 MEDIQA is a dataset of manually generated, question-driven summaries of multi and single document answers to consumer health questions. 
-It is available [here](https://osf.io/fyg46/?view_only=) or, if you want to use our slightly processed version [here](https://huggingface.com/medalpaca/mediqa-select) 
+It is available [here](https://osf.io/fyg46/?view_only=) or, if you want to use our slightly processed version [here](https://huggingface.co/datasets/medalpaca/medical_meadow_mediqa) 
 **Citation:**
 ```
 @article{savery2020question,
@@ -78,7 +78,7 @@ It is available [here](https://osf.io/fyg46/?view_only=) or, if you want to use 
 
 #### COVID-19 Open Research Dataset Challenge (CORD-19)
 In response to the COVID-19 pandemic, the White House and a coalition of leading research groups have prepared the COVID-19 Open Research Dataset (CORD-19). CORD-19 is a resource of over 1,000,000 scholarly articles, including over 400,000 with full text, about COVID-19, SARS-CoV-2, and related coronaviruses. This freely available dataset is provided to the global research community to apply recent advances in natural language processing and other AI techniques to generate new insights in support of the ongoing fight against this infectious disease. 
-The dataset is available [here](https://www.kaggle.com/datasets/allen-institute-for-ai/CORD-19-research-challenge) or, if you want to use our slightly processed version [here](https://huggingface.com/medalpaca/cord-19). 
+The dataset is available [here](https://www.kaggle.com/datasets/allen-institute-for-ai/CORD-19-research-challenge) or, if you want to use our slightly processed version [here](https://huggingface.co/datasets/medalpaca/medical_meadow_cord19). 
 **Citation:**
 ```
 @inproceedings{wang-etal-2020-cord,
@@ -94,7 +94,7 @@ The dataset is available [here](https://www.kaggle.com/datasets/allen-institute-
 ```
 
 #### Measuring Massive Multitask Language Understanding - Test Set
-This is the test set for the Measuring Massive Multitask Language Understanding, which can be downloaded [here](https://people.eecs.berkeley.edu/~hendrycks/data.tar). We also provide a prepared version of this data set [here](https://huggingface.com/medalpaca/MMMLU). 
+This is the test set for the Measuring Massive Multitask Language Understanding, which can be downloaded [here](https://people.eecs.berkeley.edu/~hendrycks/data.tar). We also provide a prepared version of this data set [here](https://huggingface.co/datasets/medalpaca/medical_meadow_mmmlu). 
 
 **Citation:**
 ```
@@ -124,7 +124,7 @@ From https://github.com/jind11/MedQA:
 >
 > For textbooks, we have two languages: English and simplified Chinese. For simplified Chinese, we provide two kinds of sentence spliting: one is split by sentences, and the other is split by paragraphs.
 
-If you would like to use the data, please cite the paper. The prepared dataset is available [here](https://huggingface.com/medalpaca/medqa)
+If you would like to use the data, please cite the paper. The prepared dataset is available [here](https://huggingface.co/datasets/medalpaca/medical_meadow_medqa)
 
 **Citation:**
 ```
@@ -138,7 +138,7 @@ If you would like to use the data, please cite the paper. The prepared dataset i
 
 ####  PubMed Health Advice
 This is the dataset use in the paper: Detecting Causal Language Use in Science Findings. 
-The prepared dataset is available [here](https://huggingface.com/medalpaca/health_advice)
+The prepared dataset is available [here](https://huggingface.co/datasets/medalpaca/medical_meadow_health_advice)
 
 **Citation:**
 
@@ -160,7 +160,7 @@ The prepared dataset is available [here](https://huggingface.com/medalpaca/healt
 ```
 #### Pubmed Causal
 This is the dataset used in the paper: Detecting Causal Language Use in Science Findings.
-The prepared dataset is available [here](https://huggingface.com/medalpaca/pubmed_causal)
+The prepared dataset is available [here](https://huggingface.co/datasets/medalpaca/medical_meadow_pubmed_causal)
 
 **Citation:**
 ```
@@ -181,7 +181,7 @@ The prepared dataset is available [here](https://huggingface.com/medalpaca/pubme
 
 ```
 #### ChatDoctor 
-Dataset used in the Paper: "ChatDoctor: A Medical Chat Model Fine-tuned on LLaMA Model using Medical Domain Knowledge". All data is available [here](https://github.com/Kent0n-Li/ChatDoctor), or you can download our prepared version [here](https://huggingface.com/medalpaca/chatdoctor). 
+Dataset used in the Paper: "ChatDoctor: A Medical Chat Model Fine-tuned on LLaMA Model using Medical Domain Knowledge". All data is available [here](https://github.com/Kent0n-Li/ChatDoctor). As it is already in the right format, we provide no prepared version.
 
 Please cite the paper, if you use this dataset. 
 
