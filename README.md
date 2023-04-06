@@ -74,32 +74,38 @@ We have dubbed this endeavor **Medical Meadow**.
 Medical Meadow currently encompasses roughly 1.5 million data points across a diverse range of tasks, 
 including openly curated medical data transformed into Q/A pairs with OpenAI's `gpt-3.5-turbo`
 and a collection of established NLP tasks in the medical domain. 
-Please note, that not all data is of the same quality and you may need tp subsample 
-the data for training your own model. For all our current models we used the following dataset: 
+Please note, that not all data is of the same quantitiy and quality and you may need tp subsample 
+the data for training your own model. 
+We will persistently update and refine the dataset, and we welcome everyone to contribute more 'grass' to Medical Meadow!
+
+### Data Overview
 
 | Name                 |  Source                                                                 |  n       |  n included in training |
 |----------------------|-------------------------------------------------------------------------|----------|-------------------------|
-| Medical Flashcards   |  [medalpaca/medical_meadow_medical_flashcards](huggingface.com/medalpaca/medical_meadow_medical_flashcards)  |  33 955  |  33 955                 |
-| Wikidoc              |  [medalpaca/medalpaca/medical_meadow_wikidoc](huggingface.com/medalpaca/medalpaca/medical_meadow_wikidoc)    |  67 704  |  10 000                 |
-| Wikidoc Patient Information | [medalpaca/medalpaca/medical_meadow_wikidoc_patient_information](huggingface.com/medalpaca/medalpaca/medical_meadow_wikidoc_patient_information)    |  5 942 |  5 942 |
-| Stackexchange academia |  [medalpaca/medalpaca/medical_meadow_stack_exchange](huggingface.com/medalpaca/medalpaca/medical_meadow_stack_exchange)    |  40 865  |  40865                 |
-| Stackexchange biology |  [medalpaca/medalpaca/medical_meadow_stack_exchange](huggingface.com/medalpaca/medalpaca/medical_meadow_stack_exchange)    |  27 887  |  27 887                 |
-| Stackexchange fitness |  [medalpaca/medalpaca/medical_meadow_stack_exchange](huggingface.com/medalpaca/medalpaca/medical_meadow_stack_exchange)    |  9 833  | 9 833                 |
-| Stackexchange health |  [medalpaca/medalpaca/medical_meadow_stack_exchange](huggingface.com/medalpaca/medalpaca/medical_meadow_stack_exchange)    |  7 721  |  7 721                 |
-| Stackexchange bioinformatics |  [medalpaca/medalpaca/medical_meadow_stack_exchange](huggingface.com/medalpaca/medalpaca/medical_meadow_stack_exchange)    |  5 407  |  5 407                |
-| USMLE Self Assessment Step 1 |  [medalpaca/medalpaca/medical_meadow_usmle_self](huggingface.com/medalpaca/medalpaca/medical_meadow_usmle_self)    |  119  |  119               |
-| USMLE Self Assessment Step 2 |  [medalpaca/medalpaca/medical_meadow_usmle_self](huggingface.com/medalpaca/medalpaca/medical_meadow_usmle_self)    |  120  |  120                |
-| USMLE Self Assessment Step 3 |  [medalpaca/medalpaca/medical_meadow_usmle_self](huggingface.com/medalpaca/medalpaca/medical_meadow_usmle_self)    |  135  |  135                |
-| Name                 |                                                                Source   |  n       |  n included in training |
-| Name                 |                                                                Source   |  n       |  n included in training |
-| Name                 |                                                                Source   |  n       |  n included in training |
+| Medical Flashcards   |  [medalpaca/medical_meadow_medical_flashcards](https://huggingface.co/datasets/medalpaca/medical_meadow_medical_flashcards)  |  33955  |  33955                 |
+| Wikidoc              |  [medalpaca/medalpaca/medical_meadow_wikidoc](https://huggingface.co/datasets/medalpaca/medical_meadow_wikidoc)    |  67704  |  10000                 |
+| Wikidoc Patient Information | [medalpaca/medalpaca/medical_meadow_wikidoc_patient_information](https://huggingface.co/datasets/medalpaca/medical_meadow_wikidoc_patient_information)    |  5942 |  5942 |
+| Stackexchange academia |  [medalpaca/medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  40865  |  40865                 |
+| Stackexchange biology |  [medalpaca/medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  27887  |  27887                 |
+| Stackexchange fitness |  [medalpaca/medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  9833  | 9833                 |
+| Stackexchange health |  [medalpaca/medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  7721  |  7721                 |
+| Stackexchange bioinformatics |  [medalpaca/medalpaca/medical_meadow_stack_exchange](https://huggingface.co/datasets/medalpaca/medical_meadow_stackexchange)    |  5407  |  5407                |
+| USMLE Self Assessment Step 1 |  [medalpaca/medalpaca/medical_meadow_usmle_self](https://huggingface.co/datasets/medalpaca/medical_meadow_usmle_self)    |  119  |  92 (test only)              |
+| USMLE Self Assessment Step 2 |  [medalpaca/medalpaca/medical_meadow_usmle_self](https://huggingface.co/vmedalpaca/medical_meadow_usmle_self)    |  120  |  110  (test only)              |
+| USMLE Self Assessment Step 3 |  [medalpaca/medalpaca/medical_meadow_usmle_self](vhuggingface.co/datasets/medalpaca/medical_meadow_usmle_self)    |  135  |  122  (test only)             |
+| MEDIQA               | [original](https://osf.io/fyg46/?view_only=), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_mediqa) |  2208    |  2208 |
+| CORD-19              | [original](https://www.kaggle.com/datasets/allen-institute-for-ai/CORD-19-research-challenge ), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_cord19) |  1056660    |  50000 |
+| MMMLU               | [original](https://github.com/hendrycks/test), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_mmmlu) |  3787    |  3787 |
+| Pubmed Health Advice | [original](https://aclanthology.org/D19-1473/), [preprocessed](vhuggingface.co/datasets/medalpaca/health_advice) |  10178    |  10178 |
+| Pubmed Causal               | [original](https://aclanthology.org/2020.coling-main.427/    ), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_pubmed_causal) |  2446    |  2446 |
+| ChatDoctor               | [original](https://github.com/Kent0n-Li/ChatDoctor  ) |  215000    |  10000 |
 
-### Medical Q/A Tasks
-
-We will persistently update and refine the dataset, and we welcome everyone to contribute more 'grass' to Medical Meadow!
 
 
-|
+### Data description
+please refer to [DATA_DESCRIPTION.md](DATA_DESCRIPTION.md)
+
+
 ## Benchmarks
 <img width="256" alt="benchmarks" src="https://user-images.githubusercontent.com/37253540/229249302-20ff8a88-95b4-42a3-bdd8-96a9dce9a92b.png">
 
