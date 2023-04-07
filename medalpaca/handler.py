@@ -12,7 +12,7 @@ def load_json(fn: str):
     return d
 
 
-class DataHanlder:
+class DataHandler:
     """Helper class to handle prompt generation and data tokenization.
 
     Args:
@@ -49,7 +49,7 @@ class DataHanlder:
         self.train_on_inputs = train_on_inputs
         self.tokenizer = tokenizer
 
-    def tokenize(self, prompt: str, add_eos_token: bool = True) -> Dict[str, list]:
+    def tokenize(self, prompt: str, add_eos_token: bool = True, return_tensors: str = None, truncation: bool = True) -> Dict[str, list]:
         """
         Tokenize the given prompt and optionally add an end-of-sequence (EOS) token.
 
@@ -61,6 +61,9 @@ class DataHanlder:
             prompt (str): The text to be tokenized.
             add_eos_token (bool, optional): Whether to add an EOS token at the end of
                 the tokenized sequence. Defaults to True.
+            return_tensors (str, optional): If tensors should be returned (and what type).
+            trunctaion (bool, optional); Whether to truncate the input to max_model_length
+            
 
         Returns:
             Dict: A dictionary containing the tokenized data:
@@ -71,10 +74,10 @@ class DataHanlder:
         # TODO: optimize (roll back changes from debugging)
         result: Dict = self.tokenizer(
             prompt,
-            truncation=True,
+            truncation=truncation,
             max_length=self.model_max_length,
             padding=False,
-            return_tensors=None,
+            return_tensors=return_tensors,
             add_special_tokens=False,
         )
         if (
@@ -114,14 +117,14 @@ class DataHanlder:
                 part unmasked and the rest masked with -100 if `train_on_inputs` is False.
         """
         prompt: str = self.generate_prompt(
-            instruction=data_point["instruction"],
-            input=data_point["input"],
-            output=data_point["output"],
+            instruction=data_point.get("instruction", ""),
+            input=data_point.get("input", ""),
+            output=data_point.get("output", ""),
         )
         tokenized_prompt: Dict = self.tokenize(prompt)
         if not self.train_on_inputs:
             user_prompt: str = self.generate_prompt(
-                instruction=data_point["instruction"], input=data_point["input"]
+                instruction=data_point.get("instruction", ""), input=data_point.get("input", "")
             )
             tokenized_user_prompt: Dict = self.tokenize(user_prompt, add_eos_token=False)
             user_prompt_len = len(tokenized_user_prompt["input_ids"])
@@ -198,3 +201,7 @@ class DataHanlder:
         )
 
         return prompt
+
+    def resolve_output(self, output: str): 
+        pass
+        
