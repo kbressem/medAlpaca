@@ -115,7 +115,7 @@ Note, that we removed all questions with images, as our models are not multimoda
 | **Model**                                                                                  | **Step1**         | **Step2**        | **Step3**        |
 |--------------------------------------------------------------------------------------------|-------------------|------------------|------------------|
 | [LLaMA 7b](https://ai.facebook.com/blog/large-language-model-llama-meta-ai/)               | 0.174             | 0.109            | nan              |
-| [Alpaca 7b naive](https://github.com/tatsu-lab/stanford_alpaca)                            | 0.243             | 0.222            | 0.329            |
+| [Alpaca 7b naive](https://github.com/tatsu-lab/stanford_alpaca) ([weights](https://huggingface.co/chavinlo/alpaca-native)) | 0.243             | 0.222            | 0.329            |
 | [Alpaca 7b LoRA](https://github.com/tloen/alpaca-lora)                                     | 0.261             | 0.264            | 0.266            |
 | [ChatDoctor](https://github.com/Kent0n-Li/ChatDoctor)                                      | 0.187             | 0.185            | 0.148            |
 | [MedAlpaca 7b](https://huggingface.co/medalpaca/medalpaca-7b)                              | 0.261             | 0.300            | ***0.363***      |
