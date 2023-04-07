@@ -121,13 +121,13 @@ Note, that we removed all questions with images, as our models are not multimoda
 | [MedAlpaca 7b LoRA](https://huggingface.co/medalpaca/medalpaca/medalpaca-lora-7b-16bit)    | 0.231             | 0.202            | 0.179            |
 | [MedAlpaca 7b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-7b-8bit)          | 0.231             | 0.241            | 0.211            |
 | [ChatDoctor](https://github.com/Kent0n-Li/ChatDoctor) (7b)                                 | 0.187             | 0.185            | 0.148            |
-| [LLaMA 13b](https://ai.facebook.com/blog/large-language-model-llama-meta-ai/)              | TBA               | TBA              | TBA              |
+| [LLaMA 13b](https://ai.facebook.com/blog/large-language-model-llama-meta-ai/)              | 0.222             | 0.248            | 0.276            |
 | [Alpaca 13b naive](https://huggingface.co/chavinlo/alpaca-13b)                             | 0.319             | 0.312            | 0.301            |
 | [MedAlpaca 13b](https://huggingface.co/medalpaca/medalpaca-13b)                            | ***0.473***       | ***0.477***      | ***0.602***      |  
 | [MedAlpaca 13b LoRA](https://huggingface.co/medalpaca/medalpaca/medalpaca-lora-13b-16bit)  | 0.250             | 0.255            | 0.255            |
 | [MedAlpaca 13b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-13b-8bit)        | 0.189             | 0.303            | 0.289            |
 | [MedAlpaca 30b](https://huggingface.co/medalpaca/medalpaca-30b) (still training)           | TBA               | TBA              | TBA              |  
-| [MedAlpaca 30b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-30b-8bit)        | 0.315             | 0.327            | 0.355            |
+| [MedAlpaca 30b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-30b-8bit)        | 0.315             | 0.327            | 0.361            |+
 
 We are continuously working on improving the training as well as our evaluation prompts. 
 Expect this table to change quite a bit. 
