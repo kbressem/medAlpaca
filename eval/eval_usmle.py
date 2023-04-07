@@ -165,7 +165,7 @@ def main(
                     pbar.set_postfix_str(f"")
                     break
                 else: 
-                    pbar.set_postfix_str(f"Output not satisfactoy, retring {j+1}/{ntries}")
+                    pbar.set_postfix_str(f"Output not satisfactoy, retrying {j+1}/{ntries}")
             question["answer"] = response
             answers.append(question)
             with open(outname, "w+") as fp:
