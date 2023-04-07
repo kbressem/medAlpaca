@@ -16,7 +16,7 @@ medical flashcards, wikis, and dialogue datasets. For more details on the data u
 Create a new virtual environment, e.g. with conda
 
 ```bash
-conda create -n medalpaca python==3.9
+conda create -n medalpaca python>=3.9
 ```
 
 Install the required packages:
@@ -71,43 +71,39 @@ To ensure your cherished llamas and alpacas are well-fed and thriving,
 we have diligently gathered high-quality biomedical open-source datasets 
 and transformed them into instruction tuning formats. 
 We have dubbed this endeavor **Medical Meadow**. 
-Medical Meadow encompasses 1.5 million data points across a diverse range of tasks, 
+Medical Meadow currently encompasses roughly 1.5 million data points across a diverse range of tasks, 
 including openly curated medical data transformed into Q/A pairs with OpenAI's `gpt-3.5-turbo`
-and a collection of established NLP tasks in the medical domain.
-
-### Medical Q/A Tasks
-Initially, we employed Anki flashcards to automatically generate questions from the front of 
-the cards and answers from the back. 
-Secondly, we created medical question-answer pairs from [Wikidoc](https://www.wikidoc.org/index.php/Main_Page), 
-extracting paragraphs with relevant headings and using  `gpt-3.5-turbo` to generate 
-questions based on the headings, with the corresponding paragraphs serving as answers. 
-This dataset is still a work in progress; we estimate that approximately 70% of the 
-question-answer pairs are factually correct at present and will continually strive to enhance the data.
-
-Next, we utilized StackExchange to obtain question-answer pairs by selecting the top-rated 
-questions from five healthcare-related categories: Academia, Bioinformatics, Biology, Fitness, and Health.
-
-Moreover, we incorporated a dataset from https://arxiv.org/abs/2303.14070, 
-which consists of 200,000 question-answer pairs and can be accessed at https://github.com/Kent0n-Li/ChatDoctor.
-
-### Established NLP Benchmarks
-This portion of the data comprises seven public biomedical datasets presented in instruction tuning 
-format, which can be downloaded here: https://drive.google.com/file/d/1YuHtEExQ4B_C4FPcHL3cAa0Y1Y2gCtuW/view?usp=share_link
-
+and a collection of established NLP tasks in the medical domain. 
+Please note, that not all data is of the same quantitiy and quality and you may need tp subsample 
+the data for training your own model. 
 We will persistently update and refine the dataset, and we welcome everyone to contribute more 'grass' to Medical Meadow!
 
+### Data Overview
 
-| Source                      | n items |
-|------------------------------|--------|
-| ChatDoc large                | 200000 |
-| Wikidoc                      | 67704  |
-| Stackexchange academia       | 40865  |
-| Anki flashcards              | 33955  |
-| Stackexchange biology        | 27887  |
-| Stackexchange fitness        | 9833   |
-| Stackexchange health         | 7721   |
-| Wikidoc patient information  | 5942   |
-| Stackexchange bioinformatics | 5407   |
+| Name                 |  Source                                                                 |  n       |  n included in training |
+|----------------------|-------------------------------------------------------------------------|----------|-------------------------|
+| Medical Flashcards   |  [medalpaca/medical_meadow_medical_flashcards](https://huggingface.co/datasets/medalpaca/medical_meadow_medical_flashcards)  |  33955  |  33955                 |
+| Wikidoc              |  [medalpaca/medical_meadow_wikidoc](https://huggingface.co/datasets/medalpaca/medical_meadow_wikidoc)    |  67704  |  10000                 |
+| Wikidoc Patient Information | [medalpaca/medical_meadow_wikidoc_patient_information](https://huggingface.co/datasets/medalpaca/medical_meadow_wikidoc_patient_information)    |  5942 |  5942 |
+| Stackexchange academia |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  40865  |  40865                 |
+| Stackexchange biology |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  27887  |  27887                 |
+| Stackexchange fitness |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  9833  | 9833                 |
+| Stackexchange health |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  7721  |  7721                 |
+| Stackexchange bioinformatics |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/datasets/medalpaca/medical_meadow_stackexchange)    |  5407  |  5407                |
+| USMLE Self Assessment Step 1 |  [medalpaca/medical_meadow_usmle_self](https://huggingface.co/datasets/medalpaca/medical_meadow_usmle_self_assessment)    |  119  |  92 (test only)              |
+| USMLE Self Assessment Step 2 |  [medalpaca/medical_meadow_usmle_self](https://huggingface.co/vmedalpaca/medical_meadow_usmle_self_assessment)    |  120  |  110  (test only)              |
+| USMLE Self Assessment Step 3 |  [medalpaca/medical_meadow_usmle_self](vhuggingface.co/datasets/medalpaca/medical_meadow_usmle_self_assessment)    |  135  |  122  (test only)             |
+| MEDIQA               | [original](https://osf.io/fyg46/?view_only=), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_mediqa) |  2208    |  2208 |
+| CORD-19              | [original](https://www.kaggle.com/datasets/allen-institute-for-ai/CORD-19-research-challenge ), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_cord19) |  1056660    |  50000 |
+| MMMLU               | [original](https://github.com/hendrycks/test), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_mmmlu) |  3787    |  3787 |
+| Pubmed Health Advice | [original](https://aclanthology.org/D19-1473/), [preprocessed](vhuggingface.co/datasets/medalpaca/health_advice) |  10178    |  10178 |
+| Pubmed Causal               | [original](https://aclanthology.org/2020.coling-main.427/    ), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_pubmed_causal) |  2446    |  2446 |
+| ChatDoctor               | [original](https://github.com/Kent0n-Li/ChatDoctor  ) |  215000    |  10000 |
+| OpenAssistant | [original](https://huggingface.co/OpenAssistant) |  9209   | 9209     |
+
+
+### Data description
+please refer to [DATA_DESCRIPTION.md](DATA_DESCRIPTION.md)
 
 
 ## Benchmarks
@@ -116,16 +112,22 @@ We will persistently update and refine the dataset, and we welcome everyone to c
 We are benchmarking all models on the USMLE self assessment, which is available at this [link](https://www.usmle.org/prepare-your-exam).
 Note, that we removed all questions with images, as our models are not multimodal. 
 
-| **Model**                                | **Step1**      | **Step2**      | **Step3**      |
-|------------------------------------------|----------------|----------------|----------------|
-| [LLaMA 7b](https://ai.facebook.com/blog/large-language-model-llama-meta-ai/) | 0.174          | 0.109          | nan            |
-| [Alpaca 7b naive](https://github.com/tatsu-lab/stanford_alpaca)  | 0.243          | 0.222          | 0.329          |
-| [Alpaca 7b LoRA](https://github.com/tloen/alpaca-lora) | 0.261          | 0.264          | 0.266          |
-| [ChatDoctor](https://github.com/Kent0n-Li/ChatDoctor) | 0.187          | 0.185          | 0.148          |
-| MedAlpaca 7b                             | 0.261          | 0.300          | **0.363**      |
-| MedAlpaca 7b LoRA 8bit                   | 0.196          | 0.209          | 0.185          |
-| MedAlpaca 13b LoRA 8bit                  | 0.217          | 0.155          | 0.234          |
-| MedAlpaca 30b LoRA 8bit                  | **0.315**      | **0.327**      | 0.355          |
+| **Model**                                                                                  | **Step1**         | **Step2**        | **Step3**        |
+|--------------------------------------------------------------------------------------------|-------------------|------------------|------------------|
+| [LLaMA 7b](https://ai.facebook.com/blog/large-language-model-llama-meta-ai/)               | 0.198             | 0.202            | 0.203            |
+| [Alpaca 7b naive](https://github.com/tatsu-lab/stanford_alpaca) ([weights](https://huggingface.co/chavinlo/alpaca-native)) | 0.275             | 0.266            | 0.293            |
+| [Alpaca 7b LoRA](https://github.com/tloen/alpaca-lora)                                     | 0.220             | 0.138            | 0.252            |
+| [MedAlpaca 7b](https://huggingface.co/medalpaca/medalpaca-7b)                              | 0.297             | 0.312            | 0.398            |
+| [MedAlpaca 7b LoRA](https://huggingface.co/medalpaca/medalpaca/medalpaca-lora-7b-16bit)    | 0.231             | 0.202            | 0.179            |
+| [MedAlpaca 7b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-7b-8bit)          | 0.231             | 0.241            | 0.211            |
+| [ChatDoctor](https://github.com/Kent0n-Li/ChatDoctor) (7b)                                 | 0.187             | 0.185            | 0.148            |
+| [LLaMA 13b](https://ai.facebook.com/blog/large-language-model-llama-meta-ai/)              | TBA               | TBA              | TBA              |
+| [Alpaca 13b naive](https://huggingface.co/chavinlo/alpaca-13b)                             | 0.319             | 0.312            | 0.301            |
+| [MedAlpaca 13b](https://huggingface.co/medalpaca/medalpaca-13b)                            | ***0.473***       | ***0.477***      | ***0.602***      |  
+| [MedAlpaca 13b LoRA](https://huggingface.co/medalpaca/medalpaca/medalpaca-lora-13b-16bit)  | 0.250             | 0.255            | 0.255            |
+| [MedAlpaca 13b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-13b-8bit)        | 0.189             | 0.303            | 0.289            |
+| [MedAlpaca 30b](https://huggingface.co/medalpaca/medalpaca-30b) (still training)           | TBA               | TBA              | TBA              |  
+| [MedAlpaca 30b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-30b-8bit)        | 0.315             | 0.327            | 0.355            |
 
 We are continuously working on improving the training as well as our evaluation prompts. 
 Expect this table to change quite a bit. 
@@ -145,4 +147,4 @@ and we appreciate your understanding as we continue to explore and develop this 
 ## Chat with medAlpaca
 <img width="256" alt="chat-lama" src="https://user-images.githubusercontent.com/37253540/229261366-5cce9a60-176a-471b-80fd-ba390539da72.png">
 
-A Convenient interface to our models is coming soon
+A Convenient interface to our models is coming soon. 
