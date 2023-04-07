@@ -114,17 +114,20 @@ Note, that we removed all questions with images, as our models are not multimoda
 
 | **Model**                                                                                  | **Step1**         | **Step2**        | **Step3**        |
 |--------------------------------------------------------------------------------------------|-------------------|------------------|------------------|
-| [LLaMA 7b](https://ai.facebook.com/blog/large-language-model-llama-meta-ai/)               | 0.174             | 0.109            | nan              |
-| [Alpaca 7b naive](https://github.com/tatsu-lab/stanford_alpaca) ([weights](https://huggingface.co/chavinlo/alpaca-native)) | 0.243             | 0.222            | 0.329            |
-| [Alpaca 7b LoRA](https://github.com/tloen/alpaca-lora)                                     | 0.261             | 0.264            | 0.266            |
+| [LLaMA 7b](https://ai.facebook.com/blog/large-language-model-llama-meta-ai/)               | 0.198             | 0.202            | 0.203            |
+| [LLaMA 13b](https://ai.facebook.com/blog/large-language-model-llama-meta-ai/)              | TBA               | TBA              | TBA              |
+| [Alpaca 7b naive](https://github.com/tatsu-lab/stanford_alpaca) ([weights](https://huggingface.co/chavinlo/alpaca-native)) | 0.275             | 0.266            | 0.293            |
+| [Alpaca 13b naive](https://huggingface.co/chavinlo/alpaca-13b)                             | 0.319             | 0.312            | 0.301            |
+| [Alpaca 7b LoRA](https://github.com/tloen/alpaca-lora)                                     | 0.220             | 0.138            | 0.252            |
 | [ChatDoctor](https://github.com/Kent0n-Li/ChatDoctor)                                      | 0.187             | 0.185            | 0.148            |
-| [MedAlpaca 7b](https://huggingface.co/medalpaca/medalpaca-7b)                              | 0.261             | 0.300            | ***0.363***      |
-| [MedAlpaca 13b](https://huggingface.co/medalpaca/medalpaca-13b)                            | TBA               | TBA              | TBA              |  
-| [MedAlpaca 7b LoRA](https://huggingface.co/medalpaca/medalpaca/medalpaca-lora-7b-16bit)    | TBA               | TBA              | TBA              |
-| [MedAlpaca 13b LoRA](https://huggingface.co/medalpaca/medalpaca/medalpaca-lora-13b-16bit)  | TBA               | TBA              | TBA              |
-| [MedAlpaca 7b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-7b-8bit)          | 0.196             | 0.209            | 0.185            |
-| [MedAlpaca 13b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-13b-8bit)        | 0.217             | 0.155            | 0.234            |
-| [MedAlpaca 30b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-30b-8bit)        | ***0.315***       | ***0.327***      | 0.355            |
+| [MedAlpaca 7b](https://huggingface.co/medalpaca/medalpaca-7b)                              | 0.297             | 0.312            | 0.398            |
+| [MedAlpaca 13b](https://huggingface.co/medalpaca/medalpaca-13b)                            | ***0.473***       | ***0.477***      | ***0.602***      |  
+| [MedAlpaca 30b](https://huggingface.co/medalpaca/medalpaca-30b) (still training)           | TBA               | TBA              | TBA              |  
+| [MedAlpaca 7b LoRA](https://huggingface.co/medalpaca/medalpaca/medalpaca-lora-7b-16bit)    | 0.231             | 0.202            | 0.179            |
+| [MedAlpaca 13b LoRA](https://huggingface.co/medalpaca/medalpaca/medalpaca-lora-13b-16bit)  | 0.250             | 0.255            | 0.255            |
+| [MedAlpaca 7b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-7b-8bit)          | 0.231             | 0.241            | 0.211            |
+| [MedAlpaca 13b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-13b-8bit)        | 0.189             | 0.303            | 0.289            |
+| [MedAlpaca 30b LoRA 8bit](https://huggingface.co/medalpaca/medalpaca-lora-30b-8bit)        | 0.315             | 0.327            | 0.355            |
 
 We are continuously working on improving the training as well as our evaluation prompts. 
 Expect this table to change quite a bit. 
