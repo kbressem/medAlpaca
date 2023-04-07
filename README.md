@@ -147,4 +147,4 @@ and we appreciate your understanding as we continue to explore and develop this 
 ## Chat with medAlpaca
 <img width="256" alt="chat-lama" src="https://user-images.githubusercontent.com/37253540/229261366-5cce9a60-176a-471b-80fd-ba390539da72.png">
 
-A Convenient interface to our models is coming soon
+A Convenient interface to our models is coming soon. 
