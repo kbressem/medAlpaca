@@ -5,7 +5,7 @@ from typing import Tuple, Union
 import fire
 import torch
 from datasets import load_dataset
-from handler import DataHanlder
+from handler import DataHandler
 from peft import (
     LoraConfig,
     get_peft_model,
@@ -191,7 +191,7 @@ def main(
         model.print_trainable_parameters()
 
     # init tokenizer and tokenize function
-    if "llama" in model_name:
+    if "llama" in model_name.lower():
         tokenizer = LlamaTokenizer.from_pretrained(model_name)
     else:
         tokenizer = AutoTokenizer.from_pretrained(model_name)
@@ -199,7 +199,7 @@ def main(
     tokenizer.padding_side = "left"
 
     # load and tokenize data
-    data_handler = DataHanlder(
+    data_handler = DataHandler(
         tokenizer=tokenizer,
         prompt_template=prompt_template,
         model_max_length=model_max_length,
