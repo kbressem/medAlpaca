@@ -2,6 +2,12 @@
 
 # medAlpaca: Finetuned Large Language Models for Medical Question Answering
 
+## News
+We have updated the training to use the recently published DeepSpeed chat instead of our own training scripts. 
+The reason behind this is that (1) we observed unoptimized parallelization of the model during traing that did not allow us to go beyond 13b Parameter models (2) DeepSpeed Chat allows a full RLHF pipeline and not just finetuning on Q/A pairs as we did until now. We hope this improves performance. 
+The old training scripts have been moved to medalpaca/legacy and might be removed within the next weeks. The models remain unchanged until we can prove that the new models, trained with DeepSpeed Chat are really better. 
+
+
 ## Project Overview
 MedAlpaca expands upon both [Stanford Alpaca](https://github.com/tatsu-lab/stanford_alpaca) and 
 [AlpacaLoRA](https://github.com/tloen/alpaca-lora) to offer an advanced suite of large language 
