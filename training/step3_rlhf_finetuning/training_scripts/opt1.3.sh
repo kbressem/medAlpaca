@@ -17,7 +17,7 @@ conda activate deepspeed-chat
 
 deepspeed main.py \
    --actor_model_name_or_path facebook/opt-1.3b \
-   --critic_model_name_or_path facebook/opt-350m \
+   --critic_model_name_or_path  /sc-projects/sc-proj-cc06-medbert/opt-350m \
    --actor_zero_stage 1 \
    --critic_zero_stage 1 \
    --num_padding_at_beginning 1 \

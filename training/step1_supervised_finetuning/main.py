@@ -72,7 +72,7 @@ def main(data_path: List[str] = ['Dahoas/rm-static'],
                 2) multiple datasets in the form: dataset1-path dataset2-path ...
         data_split (str): 
             Comma-separated list of proportions for training phase 1, 2, and 3 data. 
-            For example the split `2,4,4` will use 60% of data for phase 1, 20% for phase 2 and 20% for phase 3.
+            For example the split `6,2,2` will use 60% of data for phase 1, 20% for phase 2 and 20% for phase 3.
         sft_only_data_path (list): 
             Path to the dataset for only using in SFT phase.
         data_output_path (str): 
@@ -175,7 +175,7 @@ def main(data_path: List[str] = ['Dahoas/rm-static'],
     train_phase = 1
     train_dataset, eval_dataset = create_prompt_dataset(
         local_rank,
-        data_path,
+        [data_path] if isinstance(data_path, str) else data_path,
         data_split,
         data_output_path,
         train_phase,
@@ -278,7 +278,7 @@ def main(data_path: List[str] = ['Dahoas/rm-static'],
 
     if output_dir is not None:
         if not os.path.exists(output_dir): 
-            os.makedir(output_dir)
+            os.makedirs(output_dir)
         model = convert_lora_to_linear_layer(model)
 
         if global_rank == 0:

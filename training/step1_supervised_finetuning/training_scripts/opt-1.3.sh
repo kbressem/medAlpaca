@@ -16,6 +16,15 @@ export HF_HOME="/sc-projects/sc-proj-cc06-medbert/hfcache"
 
 deepspeed --num_gpus 1 main.py \
     --model_name_or_path facebook/opt-1.3b \
-    --gradient_accumulation_steps 2 \
-    --lora_dim 128  \
+    --data_path "medalpaca/stack_exchange" \
+    --per_device_train_batch_size 1 \
+    --per_device_eval_batch_size 1 \
+    --gradient_accumulation_steps 1 \
     --deepspeed \
+    --max_seq_len 512 \
+    --learning_rate 1e-4 \
+    --weight_decay 0.1 \
+    --num_train_epochs 1
+    --wandb_run_name 'opt-1.3b' \
+    --lr_scheduler_type cosine \
+    --zero_stage 3

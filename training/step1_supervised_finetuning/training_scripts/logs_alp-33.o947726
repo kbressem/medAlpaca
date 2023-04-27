@@ -1,0 +1,341 @@
+[2023-04-27 15:15:40,122] [WARNING] [runner.py:190:fetch_hostfile] Unable to find hostfile, will proceed with training with local resources only.
+Detected CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 but ignoring it because one or several of --include/--exclude/--num_gpus/--num_nodes cl args were used. If you want to use CUDA_VISIBLE_DEVICES don't pass any of these arguments to deepspeed.
+[2023-04-27 15:15:40,190] [INFO] [runner.py:540:main] cmd = /home/bressekk/miniconda3/envs/deepspeed-chat/bin/python -u -m deepspeed.launcher.launch --world_info=eyJsb2NhbGhvc3QiOiBbMCwgMSwgMiwgMywgNCwgNSwgNiwgN119 --master_addr=127.0.0.1 --master_port=29500 --enable_each_rank_log=None main.py --data_path medalpaca/stack_exchange --model_name_or_path decapoda-research/llama-30b-hf --per_device_train_batch_size 1 --per_device_eval_batch_size 1 --gradient_accumulation_steps 128 --num_warmup_steps 1000 --max_seq_len 512 --learning_rate 5e-5 --weight_decay 0.1 --num_train_epochs 10 --wandb_run_name medalpaca-30b --lr_scheduler_type cosine --zero_stage 3 --output_dir /sc-projects/sc-proj-cc06-medbert/alpaca-zoo/in-training/medalpaca-deepspeed-33b --gradient_checkpointing True --seed 42 --deepspeed
+[2023-04-27 15:15:49,185] [INFO] [launch.py:229:main] WORLD INFO DICT: {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]}
+[2023-04-27 15:15:49,185] [INFO] [launch.py:235:main] nnodes=1, num_local_procs=8, node_rank=0
+[2023-04-27 15:15:49,185] [INFO] [launch.py:246:main] global_rank_mapping=defaultdict(<class 'list'>, {'localhost': [0, 1, 2, 3, 4, 5, 6, 7]})
+[2023-04-27 15:15:49,185] [INFO] [launch.py:247:main] dist_world_size=8
+[2023-04-27 15:15:49,185] [INFO] [launch.py:249:main] Setting CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7
+[2023-04-27 15:16:29,050] [INFO] [comm.py:586:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+[2023-04-27 15:16:54,159] [INFO] [partition_parameters.py:436:__exit__] finished initializing model with 32.53B parameters
+Installed CUDA version 11.3 does not match the version torch was compiled with 11.7 but since the APIs are compatible, accepting this combination
+Installed CUDA version 11.3 does not match the version torch was compiled with 11.7 but since the APIs are compatible, accepting this combination
+Installed CUDA version 11.3 does not match the version torch was compiled with 11.7 but since the APIs are compatible, accepting this combination
+Installed CUDA version 11.3 does not match the version torch was compiled with 11.7 but since the APIs are compatible, accepting this combination
+Installed CUDA version 11.3 does not match the version torch was compiled with 11.7 but since the APIs are compatible, accepting this combination
+Installed CUDA version 11.3 does not match the version torch was compiled with 11.7 but since the APIs are compatible, accepting this combination
+Installed CUDA version 11.3 does not match the version torch was compiled with 11.7 but since the APIs are compatible, accepting this combination
+ninja: no work to do.
+Time to load fused_adam op: 0.6966202259063721 seconds
+Time to load fused_adam op: 0.6172125339508057 seconds
+Time to load fused_adam op: 0.7146637439727783 seconds
+Time to load fused_adam op: 0.7144966125488281 seconds
+Time to load fused_adam op: 0.6300711631774902 seconds
+Time to load fused_adam op: 0.7270045280456543 seconds
+Time to load fused_adam op: 0.7246503829956055 seconds
+Installed CUDA version 11.3 does not match the version torch was compiled with 11.7 but since the APIs are compatible, accepting this combination
+ninja: no work to do.
+Time to load fused_adam op: 1.2684121131896973 seconds
+[2023-04-27 15:19:29,595] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed info: version=0.9.0, git-hash=unknown, git-branch=unknown
+[2023-04-27 15:19:29,602] [INFO] [comm.py:580:init_distributed] Distributed backend already initialized
+[2023-04-27 15:19:36,549] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed Flops Profiler Enabled: False
+[2023-04-27 15:19:36,551] [INFO] [logging.py:96:log_dist] [Rank 0] Removing param_group that has no 'params' in the client Optimizer
+[2023-04-27 15:19:36,551] [INFO] [logging.py:96:log_dist] [Rank 0] Using client Optimizer as basic optimizer
+[2023-04-27 15:19:36,594] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed Basic Optimizer = FusedAdam
+[2023-04-27 15:19:36,594] [INFO] [utils.py:51:is_zero_supported_optimizer] Checking ZeRO support for optimizer=FusedAdam type=<class 'deepspeed.ops.adam.fused_adam.FusedAdam'>
+[2023-04-27 15:19:36,594] [INFO] [logging.py:96:log_dist] [Rank 0] Creating torch.float16 ZeRO stage 3 optimizer
+[2023-04-27 15:19:36,831] [INFO] [utils.py:785:see_memory_usage] Stage 3 initialize beginning
+[2023-04-27 15:19:36,832] [INFO] [utils.py:786:see_memory_usage] MA 7.64 GB         Max_MA 8.72 GB         CA 34.36 GB         Max_CA 34 GB 
+[2023-04-27 15:19:36,832] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 209.89 GB, percent = 10.4%
+[2023-04-27 15:19:36,835] [INFO] [stage3.py:113:__init__] Reduce bucket size 500,000,000
+[2023-04-27 15:19:36,835] [INFO] [stage3.py:114:__init__] Prefetch bucket size 30000000
+ninja: no work to do.
+Time to load utils op: 0.6567776203155518 seconds
+Time to load utils op: 0.5072143077850342 seconds
+Time to load utils op: 0.716841459274292 seconds
+Time to load utils op: 0.7178378105163574 seconds
+Time to load utils op: 0.7185137271881104 seconds
+Time to load utils op: 0.7196855545043945 seconds
+Time to load utils op: 0.7196707725524902 seconds
+Time to load utils op: 0.7205312252044678 seconds
+[2023-04-27 15:19:37,492] [INFO] [utils.py:785:see_memory_usage] DeepSpeedZeRoOffload initialize [begin]
+[2023-04-27 15:19:37,493] [INFO] [utils.py:786:see_memory_usage] MA 7.64 GB         Max_MA 7.64 GB         CA 34.36 GB         Max_CA 34 GB 
+[2023-04-27 15:19:37,493] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 209.9 GB, percent = 10.4%
+Parameter Offload: Total persistent parameters: 805376 in 121 params
+[2023-04-27 15:19:37,660] [INFO] [utils.py:785:see_memory_usage] DeepSpeedZeRoOffload initialize [end]
+[2023-04-27 15:19:37,661] [INFO] [utils.py:786:see_memory_usage] MA 7.64 GB         Max_MA 7.64 GB         CA 34.36 GB         Max_CA 34 GB 
+[2023-04-27 15:19:37,661] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 209.94 GB, percent = 10.4%
+[2023-04-27 15:19:37,807] [INFO] [utils.py:785:see_memory_usage] Before creating fp16 partitions
+[2023-04-27 15:19:37,808] [INFO] [utils.py:786:see_memory_usage] MA 7.64 GB         Max_MA 7.64 GB         CA 34.36 GB         Max_CA 34 GB 
+[2023-04-27 15:19:37,808] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 209.93 GB, percent = 10.4%
+[2023-04-27 15:19:43,818] [INFO] [utils.py:785:see_memory_usage] After creating fp16 partitions: 5
+[2023-04-27 15:19:43,819] [INFO] [utils.py:786:see_memory_usage] MA 7.63 GB         Max_MA 7.64 GB         CA 7.63 GB         Max_CA 34 GB 
+[2023-04-27 15:19:43,819] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 241.89 GB, percent = 12.0%
+[2023-04-27 15:19:43,951] [INFO] [utils.py:785:see_memory_usage] Before creating fp32 partitions
+[2023-04-27 15:19:43,952] [INFO] [utils.py:786:see_memory_usage] MA 7.63 GB         Max_MA 7.63 GB         CA 7.63 GB         Max_CA 8 GB 
+[2023-04-27 15:19:43,952] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 235.09 GB, percent = 11.7%
+[2023-04-27 15:19:44,122] [INFO] [utils.py:785:see_memory_usage] After creating fp32 partitions
+[2023-04-27 15:19:44,122] [INFO] [utils.py:786:see_memory_usage] MA 22.78 GB         Max_MA 24.44 GB         CA 26.31 GB         Max_CA 26 GB 
+[2023-04-27 15:19:44,122] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 229.36 GB, percent = 11.4%
+[2023-04-27 15:19:44,783] [INFO] [utils.py:785:see_memory_usage] Before initializing optimizer states
+[2023-04-27 15:19:44,784] [INFO] [utils.py:786:see_memory_usage] MA 22.78 GB         Max_MA 22.78 GB         CA 26.31 GB         Max_CA 26 GB 
+[2023-04-27 15:19:44,785] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 209.86 GB, percent = 10.4%
+[2023-04-27 15:19:45,023] [INFO] [utils.py:785:see_memory_usage] After initializing optimizer states
+[2023-04-27 15:19:45,024] [INFO] [utils.py:786:see_memory_usage] MA 53.08 GB         Max_MA 56.81 GB         CA 59.93 GB         Max_CA 60 GB 
+[2023-04-27 15:19:45,024] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 209.86 GB, percent = 10.4%
+[2023-04-27 15:19:45,025] [INFO] [stage3.py:366:_setup_for_real_optimizer] optimizer state initialized
+Time to load utils op: 0.0034177303314208984 seconds
+Time to load utils op: 0.0026013851165771484 seconds
+Time to load utils op: 0.0025358200073242188 seconds
+[2023-04-27 15:19:46,957] [INFO] [utils.py:785:see_memory_usage] After initializing ZeRO optimizer
+[2023-04-27 15:19:46,957] [INFO] [utils.py:786:see_memory_usage] MA 61.58 GB         Max_MA 62.37 GB         CA 72.52 GB         Max_CA 78 GB 
+[2023-04-27 15:19:46,958] [INFO] [utils.py:793:see_memory_usage] CPU Virtual Memory:  used = 209.87 GB, percent = 10.4%
+[2023-04-27 15:19:46,958] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed Final Optimizer = FusedAdam
+[2023-04-27 15:19:46,958] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed using client LR scheduler
+[2023-04-27 15:19:46,958] [INFO] [logging.py:96:log_dist] [Rank 0] DeepSpeed LR Scheduler = <torch.optim.lr_scheduler.LambdaLR object at 0x7f574a103970>
+[2023-04-27 15:19:46,958] [INFO] [logging.py:96:log_dist] [Rank 0] step=0, skipped=0, lr=[0.0], mom=[(0.9, 0.95)]
+[2023-04-27 15:19:46,959] [INFO] [config.py:953:print] DeepSpeedEngine configuration:
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   activation_checkpointing_config  {
+    "partition_activations": false, 
+    "contiguous_memory_optimization": false, 
+    "cpu_checkpointing": false, 
+    "number_checkpoints": null, 
+    "synchronize_checkpoint_boundary": false, 
+    "profile": false
+}
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   aio_config ................... {'block_size': 1048576, 'queue_depth': 8, 'thread_count': 1, 'single_submit': False, 'overlap_events': True}
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   amp_enabled .................. False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   amp_params ................... False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   autotuning_config ............ {
+    "enabled": false, 
+    "start_step": null, 
+    "end_step": null, 
+    "metric_path": null, 
+    "arg_mappings": null, 
+    "metric": "throughput", 
+    "model_info": null, 
+    "results_dir": "autotuning_results", 
+    "exps_dir": "autotuning_exps", 
+    "overwrite": true, 
+    "fast": true, 
+    "start_profile_step": 3, 
+    "end_profile_step": 5, 
+    "tuner_type": "gridsearch", 
+    "tuner_early_stopping": 5, 
+    "tuner_num_trials": 50, 
+    "model_info_path": null, 
+    "mp_size": 1, 
+    "max_train_batch_size": null, 
+    "min_train_batch_size": 1, 
+    "max_train_micro_batch_size_per_gpu": 1.024000e+03, 
+    "min_train_micro_batch_size_per_gpu": 1, 
+    "num_tuning_micro_batch_sizes": 3
+}
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   bfloat16_enabled ............. False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   checkpoint_parallel_write_pipeline  False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   checkpoint_tag_validation_enabled  True
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   checkpoint_tag_validation_fail  False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   comms_config ................. <deepspeed.comm.config.DeepSpeedCommsConfig object at 0x7f56b1e52460>
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   communication_data_type ...... None
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   compression_config ........... {'weight_quantization': {'shared_parameters': {'enabled': False, 'quantizer_kernel': False, 'schedule_offset': 0, 'quantize_groups': 1, 'quantize_verbose': False, 'quantization_type': 'symmetric', 'quantize_weight_in_forward': False, 'rounding': 'nearest', 'fp16_mixed_quantize': False, 'quantize_change_ratio': 0.001}, 'different_groups': {}}, 'activation_quantization': {'shared_parameters': {'enabled': False, 'quantization_type': 'symmetric', 'range_calibration': 'dynamic', 'schedule_offset': 1000}, 'different_groups': {}}, 'sparse_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'row_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'head_pruning': {'shared_parameters': {'enabled': False, 'method': 'topk', 'schedule_offset': 1000}, 'different_groups': {}}, 'channel_pruning': {'shared_parameters': {'enabled': False, 'method': 'l1', 'schedule_offset': 1000}, 'different_groups': {}}, 'layer_reduction': {'enabled': False}}
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   curriculum_enabled_legacy .... False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   curriculum_params_legacy ..... False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   data_efficiency_config ....... {'enabled': False, 'seed': 1234, 'data_sampling': {'enabled': False, 'num_epochs': 1000, 'num_workers': 0, 'curriculum_learning': {'enabled': False}}, 'data_routing': {'enabled': False, 'random_ltd': {'enabled': False, 'layer_token_lr_schedule': {'enabled': False}}}}
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   data_efficiency_enabled ...... False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   dataloader_drop_last ......... False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   disable_allgather ............ False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   dump_state ................... False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   dynamic_loss_scale_args ...... {'init_scale': 65536, 'scale_window': 100, 'delayed_shift': 2, 'min_scale': 1}
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   eigenvalue_enabled ........... False
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   eigenvalue_gas_boundary_resolution  1
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   eigenvalue_layer_name ........ bert.encoder.layer
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   eigenvalue_layer_num ......... 0
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   eigenvalue_max_iter .......... 100
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   eigenvalue_stability ......... 1e-06
+[2023-04-27 15:19:46,960] [INFO] [config.py:957:print]   eigenvalue_tol ............... 0.01
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   eigenvalue_verbose ........... False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   elasticity_enabled ........... False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   flops_profiler_config ........ {
+    "enabled": false, 
+    "profile_step": 1, 
+    "module_depth": -1, 
+    "top_modules": 1, 
+    "detailed": true, 
+    "output_file": null
+}
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   fp16_auto_cast ............... False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   fp16_enabled ................. True
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   fp16_master_weights_and_gradients  False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   global_rank .................. 0
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   grad_accum_dtype ............. None
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   gradient_accumulation_steps .. 128
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   gradient_clipping ............ 1.0
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   gradient_predivide_factor .... 1.0
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   hybrid_engine ................ enabled=False max_out_tokens=512 inference_tp_size=1 release_inference_cache=False pin_parameters=True tp_gather_partition_size=8
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   initial_dynamic_scale ........ 65536
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   load_universal_checkpoint .... False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   loss_scale ................... 0
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   memory_breakdown ............. False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   monitor_config ............... tensorboard=TensorBoardConfig(enabled=False, output_path='', job_name='DeepSpeedJobName') wandb=WandbConfig(enabled=False, group=None, team=None, project='deepspeed') csv_monitor=CSVConfig(enabled=False, output_path='', job_name='DeepSpeedJobName') enabled=False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   nebula_config ................ {
+    "enabled": false, 
+    "persistent_storage_path": null, 
+    "persistent_time_interval": 100, 
+    "num_of_version_in_retention": 2, 
+    "enable_nebula_load": true, 
+    "load_path": null
+}
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   optimizer_legacy_fusion ...... False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   optimizer_name ............... None
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   optimizer_params ............. None
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   pipeline ..................... {'stages': 'auto', 'partition': 'best', 'seed_layers': False, 'activation_checkpoint_interval': 0}
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   pld_enabled .................. False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   pld_params ................... False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   prescale_gradients ........... False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   scheduler_name ............... None
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   scheduler_params ............. None
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   sparse_attention ............. None
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   sparse_gradients_enabled ..... False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   steps_per_print .............. 10
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   train_batch_size ............. 1024
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   train_micro_batch_size_per_gpu  1
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   use_node_local_storage ....... False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   wall_clock_breakdown ......... False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   world_size ................... 8
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   zero_allow_untested_optimizer  False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   zero_config .................. stage=3 contiguous_gradients=True reduce_scatter=True reduce_bucket_size=500,000,000 allgather_partitions=True allgather_bucket_size=500,000,000 overlap_comm=True load_from_fp32_weights=True elastic_checkpoint=False offload_param=DeepSpeedZeroOffloadParamConfig(device='none', nvme_path=None, buffer_count=5, buffer_size=100,000,000, max_in_cpu=1,000,000,000, pin_memory=False) offload_optimizer=DeepSpeedZeroOffloadOptimizerConfig(device='none', nvme_path=None, buffer_count=4, pin_memory=False, pipeline=False, pipeline_read=False, pipeline_write=False, fast_init=False) sub_group_size=1,000,000,000 cpu_offload_param=None cpu_offload_use_pin_memory=None cpu_offload=None prefetch_bucket_size=30000000 param_persistence_threshold=10000 model_persistence_threshold=sys.maxsize max_live_parameters=30000000 max_reuse_distance=1,000,000,000 gather_16bit_weights_on_model_save=False stage3_gather_fp16_weights_on_model_save=False ignore_unused_parameters=True legacy_stage1=False round_robin_gradients=False memory_efficient_linear=False
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   zero_enabled ................. True
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   zero_force_ds_cpu_optimizer .. True
+[2023-04-27 15:19:46,961] [INFO] [config.py:957:print]   zero_optimization_stage ...... 3
+[2023-04-27 15:19:46,962] [INFO] [config.py:943:print_user_config]   json = {
+    "train_batch_size": 1.024000e+03, 
+    "train_micro_batch_size_per_gpu": 1, 
+    "steps_per_print": 10, 
+    "zero_optimization": {
+        "stage": 3, 
+        "offload_param": {
+            "device": "none"
+        }, 
+        "offload_optimizer": {
+            "device": "none"
+        }, 
+        "stage3_param_persistence_threshold": 1.000000e+04, 
+        "stage3_max_live_parameters": 3.000000e+07, 
+        "stage3_prefetch_bucket_size": 3.000000e+07, 
+        "memory_efficient_linear": false
+    }, 
+    "fp16": {
+        "enabled": true, 
+        "loss_scale_window": 100
+    }, 
+    "gradient_clipping": 1.0, 
+    "prescale_gradients": false, 
+    "wall_clock_breakdown": false, 
+    "hybrid_engine": {
+        "enabled": false, 
+        "inference_tp_size": 1, 
+        "release_inference_cache": false, 
+        "pin_parameters": true, 
+        "tp_gather_partition_size": 8
+    }
+}
+Time to load utils op: 0.001809835433959961 seconds
+Time to load utils op: 0.0029244422912597656 seconds
+Time to load utils op: 0.002186298370361328 seconds
+Time to load utils op: 0.0021085739135742188 seconds
+Time to load utils op: 0.0021538734436035156 seconds
+[2023-04-27 15:23:36,646] [INFO] [loss_scaler.py:188:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 65536, but hysteresis is 2. Reducing hysteresis to 1
+[2023-04-27 15:27:06,809] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 65536, reducing to 32768
+[2023-04-27 15:30:36,826] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 32768, reducing to 16384
+[2023-04-27 15:34:06,900] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 16384, reducing to 8192
+[2023-04-27 15:37:36,835] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 8192, reducing to 4096
+[2023-04-27 15:41:06,614] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 4096, reducing to 2048
+[2023-04-27 15:44:36,777] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 2048, reducing to 1024
+[2023-04-27 15:48:06,528] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 1024, reducing to 512
+[2023-04-27 15:52:24,670] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 512, reducing to 256
+[2023-04-27 15:55:54,765] [WARNING] [stage3.py:1787:step] 3 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 15:55:54,767] [INFO] [logging.py:96:log_dist] [Rank 0] step=10, skipped=9, lr=[5.0000000000000004e-08], mom=[(0.9, 0.95)]
+[2023-04-27 15:55:54,767] [INFO] [timer.py:199:stop] epoch=1/micro_step=246/global_step=10, RunningAvgSamplesPerSec=4.884801552668117, CurrSamplesPerSec=4.880660633162823, MemAllocated=61.63GB, MaxMemAllocated=67.23GB
+[2023-04-27 15:59:25,100] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:02:55,782] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:06:25,713] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 256, reducing to 128
+[2023-04-27 16:09:55,453] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:13:25,366] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 128, reducing to 64
+[2023-04-27 16:16:54,802] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:21:13,328] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:24:43,170] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:28:13,266] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:31:42,529] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 64, reducing to 32
+[2023-04-27 16:31:42,531] [INFO] [logging.py:96:log_dist] [Rank 0] step=20, skipped=12, lr=[4.0000000000000003e-07], mom=[(0.9, 0.95)]
+[2023-04-27 16:31:42,531] [INFO] [timer.py:199:stop] epoch=2/micro_step=492/global_step=20, RunningAvgSamplesPerSec=4.884558183839778, CurrSamplesPerSec=4.900221702892125, MemAllocated=61.63GB, MaxMemAllocated=67.23GB
+[2023-04-27 16:35:11,610] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:38:41,490] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:42:11,518] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:45:40,980] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:49:58,625] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:53:28,110] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 16:56:58,003] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:00:27,366] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:03:56,844] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:07:26,529] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:07:26,530] [INFO] [logging.py:96:log_dist] [Rank 0] step=30, skipped=12, lr=[9e-07], mom=[(0.9, 0.95)]
+[2023-04-27 17:07:26,531] [INFO] [timer.py:199:stop] epoch=3/micro_step=738/global_step=30, RunningAvgSamplesPerSec=4.887397767814848, CurrSamplesPerSec=4.890976096787649, MemAllocated=61.63GB, MaxMemAllocated=67.23GB
+[2023-04-27 17:10:56,437] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:14:25,873] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:18:43,630] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:22:12,940] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:25:42,304] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:29:11,745] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:32:41,172] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:36:10,461] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:39:40,236] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:43:09,646] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:43:09,647] [INFO] [logging.py:96:log_dist] [Rank 0] step=40, skipped=12, lr=[1.4000000000000001e-06], mom=[(0.9, 0.95)]
+[2023-04-27 17:43:09,648] [INFO] [timer.py:199:stop] epoch=4/micro_step=984/global_step=40, RunningAvgSamplesPerSec=4.889342242296524, CurrSamplesPerSec=4.896604418851006, MemAllocated=61.63GB, MaxMemAllocated=67.23GB
+[2023-04-27 17:47:27,035] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:50:56,320] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:54:25,761] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 17:57:54,837] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:01:24,018] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:04:53,259] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:08:22,570] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 32, reducing to 16
+[2023-04-27 18:11:50,540] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 16, reducing to 8
+[2023-04-27 18:16:06,829] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 8, reducing to 4
+[2023-04-27 18:19:35,260] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:19:35,261] [INFO] [logging.py:96:log_dist] [Rank 0] step=50, skipped=15, lr=[1.7500000000000002e-06], mom=[(0.9, 0.95)]
+[2023-04-27 18:19:35,261] [INFO] [timer.py:199:stop] epoch=6/micro_step=196/global_step=50, RunningAvgSamplesPerSec=4.8932765162727305, CurrSamplesPerSec=4.920118908323036, MemAllocated=61.63GB, MaxMemAllocated=67.23GB
+[2023-04-27 18:23:04,593] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:26:34,151] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:30:03,095] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:33:32,128] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:37:01,104] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:40:29,904] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:44:46,900] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:48:15,326] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:51:43,808] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:55:12,257] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 18:55:12,259] [INFO] [logging.py:96:log_dist] [Rank 0] step=60, skipped=15, lr=[2.25e-06], mom=[(0.9, 0.95)]
+[2023-04-27 18:55:12,259] [INFO] [timer.py:199:stop] epoch=7/micro_step=442/global_step=60, RunningAvgSamplesPerSec=4.896073329940657, CurrSamplesPerSec=4.919508035691562, MemAllocated=61.63GB, MaxMemAllocated=67.23GB
+[2023-04-27 18:58:40,607] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:02:09,060] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:05:38,011] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:09:06,701] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:13:23,191] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:16:50,891] [INFO] [loss_scaler.py:181:update_scale] [deepspeed] OVERFLOW! Rank 0 Skipping step. Attempted loss scale: 4, reducing to 2
+[2023-04-27 19:20:18,326] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:23:46,659] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:27:15,058] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:30:43,474] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:30:43,475] [INFO] [logging.py:96:log_dist] [Rank 0] step=70, skipped=16, lr=[2.7e-06], mom=[(0.9, 0.95)]
+[2023-04-27 19:30:43,476] [INFO] [timer.py:199:stop] epoch=8/micro_step=688/global_step=70, RunningAvgSamplesPerSec=4.8999389823917365, CurrSamplesPerSec=4.920210285133994, MemAllocated=61.63GB, MaxMemAllocated=67.23GB
+[2023-04-27 19:34:12,359] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:37:41,053] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:41:57,323] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:45:25,542] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:48:53,581] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:52:22,093] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:55:50,615] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 19:59:19,068] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 20:02:47,738] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 20:06:16,071] [WARNING] [stage3.py:1787:step] 2 pytorch allocator cache flushes since last step. this happens when there is high memory pressure and is detrimental to performance. if this is happening frequently consider adjusting settings to reduce memory consumption. If you are unable to make the cache flushes go away consider adding get_accelerator().empty_cache() calls in your training loop to ensure that all ranks flush their caches at the same time
+[2023-04-27 20:06:16,073] [INFO] [logging.py:96:log_dist] [Rank 0] step=80, skipped=16, lr=[3.2000000000000003e-06], mom=[(0.9, 0.95)]
+[2023-04-27 20:06:16,073] [INFO] [timer.py:199:stop] epoch=9/micro_step=934/global_step=80, RunningAvgSamplesPerSec=4.902431526279209, CurrSamplesPerSec=4.922059596707844, MemAllocated=61.63GB, MaxMemAllocated=67.23GB
+[2023-04-27 20:09:49,028] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 1817235
+[2023-04-27 20:09:52,347] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 1817236
+[2023-04-27 20:09:52,386] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 1817237
+[2023-04-27 20:09:52,421] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 1817238
+[2023-04-27 20:09:52,456] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 1817239
+[2023-04-27 20:09:52,456] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 1817240
+[2023-04-27 20:09:52,491] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 1817241
+[2023-04-27 20:09:52,525] [INFO] [launch.py:428:sigkill_handler] Killing subprocess 1817242
+[2023-04-27 20:09:52,559] [ERROR] [launch.py:434:sigkill_handler] ['/home/bressekk/miniconda3/envs/deepspeed-chat/bin/python', '-u', 'main.py', '--local_rank=7', '--data_path', 'medalpaca/stack_exchange', '--model_name_or_path', 'decapoda-research/llama-30b-hf', '--per_device_train_batch_size', '1', '--per_device_eval_batch_size', '1', '--gradient_accumulation_steps', '128', '--num_warmup_steps', '1000', '--max_seq_len', '512', '--learning_rate', '5e-5', '--weight_decay', '0.1', '--num_train_epochs', '10', '--wandb_run_name', 'medalpaca-30b', '--lr_scheduler_type', 'cosine', '--zero_stage', '3', '--output_dir', '/sc-projects/sc-proj-cc06-medbert/alpaca-zoo/in-training/medalpaca-deepspeed-33b', '--gradient_checkpointing', 'True', '--seed', '42', '--deepspeed'] exits with return code = 1
