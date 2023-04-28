@@ -1,0 +1,7 @@
+{
+    "description": "Default Template for medAlpaca.",
+    "system": "\n\n### System:\n",
+    "user": "\n\n### User:\n",
+    "assistant": "\n\n### Assistant:\n",
+    "response_split": "### Assistant:"
+}
