@@ -25,6 +25,12 @@ from accelerate import Accelerator
 
 from handler import DataHandler    
 
+import torch._dynamo as dynamo
+dynamo.config.verbose=True
+# can be activated if errors occur
+# dynamo.config.suppress_errors = True
+
+
 def init_model_tokenizer(model_name: str): 
     if "llama" in model_name:
         # The LLaMA config on HF is not up to date with the library,
@@ -40,7 +46,7 @@ def init_model_tokenizer(model_name: str):
 
    
 def main(
-    model: str = "EleutherAI/gpt-neo-1.3B", #"decapoda-research/llama-7b-hf",
+    model: str = "decapoda-research/llama-7b-hf",
     val_set_size: Union[int, float] = 0.1,
     prompt_template: str = "prompts/medalpaca.json",
     model_max_length: int = 256, # should not exceed 2048, as LLaMA is trained with this
@@ -49,10 +55,11 @@ def main(
     per_device_batch_size: int = 2,
     num_epochs: int = 3,
     learning_rate: float = 2e-5,
+    weight_decay: float = 0.001,
     global_batch_size: int = 128,
     output_dir: str = "./output",
     save_total_limit: int = 3,
-    eval_steps: int = 0.5,
+    eval_steps: int = 10,
     group_by_length: bool = False,
     wandb_run_name: str = "test",
     use_wandb: bool = False,
@@ -80,6 +87,8 @@ def main(
         The number of epochs for training. Default is 3.
     learning_rate (float, optional):
         The learning rate for the optimizer. Default is 2e-5.
+    weight_decay (float, optional): 
+        The weight decay for the optimizer. Default is 0.001.
     global_batch_size (int, optional):
         The number of samples the model needs to see until the weights get updated.
         Default is 128.
@@ -100,7 +109,8 @@ def main(
     """
     model_name = model    
     os.environ["WANDB_PROJECT"] = wandb_project
-        
+    os.environ["TOKENIZERS_PARALLELISM"] = "True"
+    
     world_size = int(os.environ.get("WORLD_SIZE", 1))
     gradient_accumulation_steps = global_batch_size // per_device_batch_size // world_size
     
@@ -154,13 +164,25 @@ def main(
         data["test"], shuffle=False, collate_fn=collate_fn, batch_size=per_device_batch_size
     )
             
+    # for deepspeed we need to prepare the 
+    no_decay = ["bias", "LayerNorm.weight"]
+    optimizer_grouped_parameters = [
+        {
+            "params": [p for n, p in model.named_parameters() if not any(nd in n for nd in no_decay)],
+            "weight_decay": weight_decay,
+        },
+        {
+            "params": [p for n, p in model.named_parameters() if any(nd in n for nd in no_decay)],
+            "weight_decay": 0.0,
+        },
+    ]    
+    
     # For FSDP feature, it is highly recommended and efficient to prepare the model before creating optimizer
-    if torch.__version__ >= "2" and sys.platform != "win32":
-        model = torch.compile(model)   
-    model = accelerator.prepare(model)
+    #if torch.__version__ >= "2" and sys.platform != "win32":
+    #    model = torch.compile(model)   
     
     # set up optimizer and scheduler
-    optimizer = torch.optim.AdamW(model.parameters(), lr=learning_rate)
+    optimizer = torch.optim.AdamW(optimizer_grouped_parameters, lr=learning_rate)
     lr_scheduler = get_linear_schedule_with_warmup(
         optimizer=optimizer,
         num_warmup_steps=warmup_steps,
@@ -169,8 +191,8 @@ def main(
 
     # There is no specific order to remember, we just need to unpack the objects in the same order we gave them to the
     # prepare method. Model was already prepared, so we do not need to repeat this
-    optimizer, train_dataloader, eval_dataloader, lr_scheduler = accelerator.prepare(
-        optimizer, train_dataloader, eval_dataloader, lr_scheduler
+    model, optimizer, train_dataloader, eval_dataloader, lr_scheduler = accelerator.prepare(
+        model, optimizer, train_dataloader, eval_dataloader, lr_scheduler
     )
 
 
