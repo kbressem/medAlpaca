@@ -207,7 +207,7 @@ def main(
         model.train()
         total_loss = 0
         epoch_iterator = tqdm(train_dataloader, desc=f"Epoch {epoch+1}", unit="batch", disable=not accelerator.is_local_main_process)
-        for step, batch in enumerate(epoch_iterator):
+        for train_step, batch in enumerate(epoch_iterator):
             outputs = model(**batch)
             loss = outputs.loss
             loss = loss / gradient_accumulation_steps
@@ -215,7 +215,7 @@ def main(
             total_loss += loss.detach().float()
             accelerator.backward(loss)
             overall_step += 1
-            if step % gradient_accumulation_steps == 0:
+            if train_step % gradient_accumulation_steps == 0:
                 optimizer.step()
                 lr_scheduler.step()
                 optimizer.zero_grad()
@@ -224,7 +224,7 @@ def main(
             if overall_step % eval_steps == 0: 
                 model.eval()
                 eval_loss = 0
-                for step, batch in enumerate(eval_dataloader):
+                for eval_step, batch in enumerate(eval_iterator := tqdm(eval_dataloader, desc=f"Evaluating Epoch {overall_step/train_step:.2f}", unit="batch", disable=not accelerator.is_local_main_process)):
                     with torch.no_grad():
                         outputs = model(**batch)
                         eval_loss =+ outputs.loss.detach().float()
@@ -239,11 +239,12 @@ def main(
 
                 accelerator.log(
                     {
-                        "train_loss": total_loss.item() / step,
+                        "train_loss": total_loss.item() / train_step,
                         "eval_loss": mean_eval_loss,
                     },
                     step=epoch,
                 )
+                model.train()
             
     accelerator.end_training()
 
