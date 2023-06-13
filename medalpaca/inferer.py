@@ -83,7 +83,7 @@ class Inferer:
         else: 
             load_model = AutoModelForCausalLM
             
-        model = LlamaForCausalLM.from_pretrained(
+        model = load_model.from_pretrained(
             base_model,
             load_in_8bit=load_in_8bit,
             torch_dtype=torch_dtype,
