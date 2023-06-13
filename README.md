@@ -91,8 +91,8 @@ We will persistently update and refine the dataset, and we welcome everyone to c
 | Stackexchange health |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/medalpaca/datasets/medalpaca/medical_meadow_stackexchange)    |  7721  |  7721                 |
 | Stackexchange bioinformatics |  [medalpaca/medical_meadow_stack_exchange](https://huggingface.co/datasets/medalpaca/medical_meadow_stackexchange)    |  5407  |  5407                |
 | USMLE Self Assessment Step 1 |  [medalpaca/medical_meadow_usmle_self](https://huggingface.co/datasets/medalpaca/medical_meadow_usmle_self_assessment)    |  119  |  92 (test only)              |
-| USMLE Self Assessment Step 2 |  [medalpaca/medical_meadow_usmle_self](https://huggingface.co/vmedalpaca/medical_meadow_usmle_self_assessment)    |  120  |  110  (test only)              |
-| USMLE Self Assessment Step 3 |  [medalpaca/medical_meadow_usmle_self](vhuggingface.co/datasets/medalpaca/medical_meadow_usmle_self_assessment)    |  135  |  122  (test only)             |
+| USMLE Self Assessment Step 2 |  [medalpaca/medical_meadow_usmle_self](https://huggingface.co/datasets/medalpaca/medical_meadow_usmle_self_assessment)    |  120  |  110  (test only)              |
+| USMLE Self Assessment Step 3 |  [medalpaca/medical_meadow_usmle_self](https://huggingface.co/datasets/medalpaca/medical_meadow_usmle_self_assessment)    |  135  |  122  (test only)             |
 | MEDIQA               | [original](https://osf.io/fyg46/?view_only=), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_mediqa) |  2208    |  2208 |
 | CORD-19              | [original](https://www.kaggle.com/datasets/allen-institute-for-ai/CORD-19-research-challenge ), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_cord19) |  1056660    |  50000 |
 | MMMLU               | [original](https://github.com/hendrycks/test), [preprocessed](https://huggingface.co/datasets/medalpaca/medical_meadow_mmmlu) |  3787    |  3787 |
