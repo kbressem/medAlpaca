@@ -144,7 +144,14 @@ We kindly ask you to exercise caution when using these models,
 and we appreciate your understanding as we continue to explore and develop this innovative technology.
 
 
-## Chat with medAlpaca
+## Paper
 <img width="256" alt="chat-lama" src="https://user-images.githubusercontent.com/37253540/229261366-5cce9a60-176a-471b-80fd-ba390539da72.png">
 
-A Convenient interface to our models is coming soon. 
+```
+@article{han2023medalpaca,
+  title={MedAlpaca--An Open-Source Collection of Medical Conversational AI Models and Training Data},
+  author={Han, Tianyu and Adams, Lisa C and Papaioannou, Jens-Michalis and Grundmann, Paul and Oberhauser, Tom and L{\"o}ser, Alexander and Truhn, Daniel and Bressem, Keno K},
+  journal={arXiv preprint arXiv:2304.08247},
+  year={2023}
+}
+```
