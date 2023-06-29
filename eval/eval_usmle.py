@@ -151,7 +151,7 @@ def main(
         pbar = tqdm(step)
         pbar.set_description_str(f"Evaluating USMLE Step {step_idx}")
         for i, question in enumerate(pbar): 
-            if skip_if_exists and i <= len(answers):
+            if skip_if_exists and (i+1) <= len(answers):
                 continue
             for j in range(ntries): 
                 response = model(
